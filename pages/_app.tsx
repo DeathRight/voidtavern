@@ -3,12 +3,17 @@ import { useState } from 'react';
 import { AppProps } from 'next/app';
 import { getCookie, setCookie } from 'cookies-next';
 import Head from 'next/head';
-import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
+import { MantineProvider, ColorScheme, ColorSchemeProvider, AppShell } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+import { appWithTranslation } from 'next-i18next';
+import { rtlCache } from '../utils/rtl-cache';
+import AppHeader from '../components/AppHeader/AppHeader';
+import theme from '../utils/MantineTheme/MantineThemeOverride';
 
-export default function App(props: AppProps & { colorScheme: ColorScheme }) {
+function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
   const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme);
+  const [rtl, setRtl] = useState(false);
 
   const toggleColorScheme = (value?: ColorScheme) => {
     const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark');
@@ -19,17 +24,35 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   return (
     <>
       <Head>
-        <title>Mantine next example</title>
+        <title>VoidTavern - Portfolio</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-          <NotificationsProvider>
-            <Component {...pageProps} />
-          </NotificationsProvider>
-        </MantineProvider>
+        <div dir={rtl ? 'rtl' : 'ltr'}>
+          <MantineProvider
+            theme={{ ...theme, colorScheme, dir: rtl ? 'rtl' : 'ltr' }}
+            emotionCache={rtl ? rtlCache : undefined}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            <NotificationsProvider>
+              <AppShell
+                header={
+                  <AppHeader
+                    themeValue={colorScheme}
+                    onToggleTheme={(t) => toggleColorScheme(t)}
+                    rtlValue={rtl}
+                    onRtlToggle={(v) => setRtl(v)}
+                  />
+                }
+              >
+                <Component {...pageProps} />
+              </AppShell>
+            </NotificationsProvider>
+          </MantineProvider>
+        </div>
       </ColorSchemeProvider>
     </>
   );
@@ -38,3 +61,5 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 App.getInitialProps = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
   colorScheme: getCookie('mantine-color-scheme', ctx) || 'light',
 });
+
+export default appWithTranslation(App);

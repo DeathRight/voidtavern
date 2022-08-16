@@ -1,0 +1,15 @@
+{
+  "header": {
+    "tooltips": {
+      "dir": "Cambiar al Modo {{mode}}",
+      "light": "Cambiar al Modo Oscuro",
+      "dark": "Cambiar al Modo de Luz"
+    }
+  },
+  "welcome": "Bienvenido a la",
+  "portfolio": "Un portafolio para",
+  "sections": {
+    "about": "Sobre",
+    "lang": "Idiomas"
+  }
+}

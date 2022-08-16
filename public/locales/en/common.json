@@ -1,0 +1,15 @@
+{
+  "header": {
+    "tooltips": {
+      "dir": "Switch to {{mode}} Mode",
+      "light": "Switch to Dark Mode",
+      "dark": "Switch to Light Mode"
+    }
+  },
+  "welcome": "Welcome to the",
+  "portfolio": "A portfolio for",
+  "sections": {
+    "about": "About",
+    "lang": "Languages"
+  }
+}
