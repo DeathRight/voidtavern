@@ -11,6 +11,7 @@ export type SectionsObj = { [k: string]: SectionObj | undefined | null };
 
 export interface ISTGContext {
   sections: React.MutableRefObject<SectionsObj>;
+  window: React.MutableRefObject<SectionObj | undefined | null>;
   saveRef: (e: HTMLDivElement | null, key: string) => void;
   lastUpdated: number;
   setLastUpdated: Dispatch<SetStateAction<number>>;
@@ -26,6 +27,8 @@ const STGContextProvider = (props: {
   orientation?: Orientation;
 }) => {
   const { children, flipped = false, orientation = 'vertical' } = props;
+
+  const window = useRef<SectionObj | undefined | null>(null);
   const sections = useRef<SectionsObj>({});
   const [lastUpdated, setLastUpdated] = useState(Date.now());
   const saveRef = useCallback(
@@ -45,7 +48,8 @@ const STGContextProvider = (props: {
           },
           size: { width: coords.width, height: coords.height },
         };
-        sections.current[key] = section;
+        if (key === 'STG.Window') window.current = section;
+        else sections.current[key] = section;
       } else if (!e && sections.current[key]) delete sections.current[key];
       setLastUpdated(Date.now());
     },
@@ -54,7 +58,7 @@ const STGContextProvider = (props: {
 
   return (
     <STGContext.Provider
-      value={{ sections, saveRef, lastUpdated, setLastUpdated, flipped, orientation }}
+      value={{ window, sections, saveRef, lastUpdated, setLastUpdated, flipped, orientation }}
     >
       {children}
     </STGContext.Provider>

@@ -1,8 +1,85 @@
-import React, { useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, {
+  CSSProperties,
+  useContext,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import STGContextProvider, { ISTGContext, SectionObj, STGContext } from './context';
 import useDocumentSize from './useDocumentSize';
 import { useScrollPosition } from './useScrollPosition';
 //import { useElementSize } from './useElementSize';
+
+type WindowProps = {
+  /**
+   * `CSS position string` that the Window's position will be offset from the
+   * orientation-based side of the STG
+   *
+   * The side is `top/left` for `vertical/horizontal` orientation respectively,
+   * and `bottom/right` respectively if `flipped`.
+   *
+   * Default: '0'
+   */
+  offset?: string;
+  /**
+   * `CSS size string` that the Window's axis will use.
+   *
+   * The axis is `height` if orientation is `vertical`,
+   * or `width` if orientation is `horizontal`.
+   *
+   * Note: The cross-axis size will always be '100%'.
+   *
+   * Default: '15%'
+   */
+  size?: string;
+};
+type WindowSide = 'top' | 'bottom' | 'left' | 'right';
+const Window = (props: WindowProps) => {
+  const { offset = '0', size = '15%' } = props;
+  const uId = useId();
+  //const innerRef = useRef<HTMLDivElement | undefined | null>(null);
+
+  const { orientation, flipped, saveRef } = useContext(STGContext) as ISTGContext;
+  const side: WindowSide = useMemo(() => {
+    let s: WindowSide = orientation === 'vertical' ? 'top' : 'left';
+    if (flipped) s = s === 'top' ? 'bottom' : 'right';
+
+    return s;
+  }, [orientation, flipped]);
+
+  const StickyWindow = useMemo(() => {
+    const s: CSSProperties = {
+      position: 'sticky',
+      visibility: 'hidden',
+    };
+    s[side] = offset;
+
+    if (side === 'top' || side === 'bottom') {
+      // Vertical orientation
+      s.width = '100%';
+      s.height = size;
+    } else {
+      // Horizontal orientation
+      s.height = '100%';
+      s.width = size;
+    }
+
+    return (
+      <div
+        key={uId}
+        ref={(e) => {
+          if (e) saveRef(e, 'STG.Window');
+        }}
+        style={s}
+      />
+    );
+  }, [side, size]);
+
+  return <>{StickyWindow}</>;
+};
 
 type SectionProps = { children: React.ReactNode; id: string };
 const Section = (props: SectionProps) => {
@@ -23,7 +100,6 @@ const Section = (props: SectionProps) => {
   /* ---------------------------- Position Tracking --------------------------- */
   useScrollPosition(
     ({ currPos }) => {
-      // Set to viewport coords, not viewport
       if (sections.current[id]) sections.current[id]!.position = currPos;
     },
     [lastUpdated],
@@ -50,28 +126,6 @@ type ScrollTrackingGroupProps = {
    * Fires when the currently 'scrolled to' section changes elements
    */
   onScrolledToChange?: (id: string, e: HTMLElement) => void;
-  /**
-   * Offset in pixels from the top of the viewport the section window should start.
-   *
-   * Default: `0`
-   *
-   * **Ex:**
-   *
-   * topOffset = 0, btmOffset = 100 -> Will switch current element when it enters (scrolls to)
-   *      0-100px from the top of the viewport.
-   */
-  topOffset?: number;
-  /**
-   * Offset in pixels from the top of the viewport the section window should end.
-   *
-   * Default: `100`
-   *
-   * **Ex:**
-   *
-   * `topOffset = 0, btmOffset = 100` -> Will switch current element when it enters (scrolls to)
-   *      0-100px from the top of the viewport.
-   */
-  btmOffset?: number;
   /**
    * Whether we are tracking vertical or horizontal scrolling.
    *
@@ -109,8 +163,6 @@ const STG = React.forwardRef<HTMLDivElement, ScrollTrackingGroupProps>((props, r
   const {
     children,
     onScrolledToChange,
-    topOffset = 0,
-    btmOffset = 100,
     orientation = 'vertical',
     flipped = false,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -118,7 +170,7 @@ const STG = React.forwardRef<HTMLDivElement, ScrollTrackingGroupProps>((props, r
   } = props;
   // TODO: Implement localScroll
   // TODO: Implement sticky window div to use pos of in place of offsets
-  const { sections, saveRef } = useContext(STGContext) as ISTGContext;
+  const { window, sections, saveRef, lastUpdated } = useContext(STGContext) as ISTGContext;
 
   /* ------------------------- Internal ref forwarding ------------------------ */
   const innerRef = useRef<HTMLDivElement>(null);
@@ -155,22 +207,27 @@ const STG = React.forwardRef<HTMLDivElement, ScrollTrackingGroupProps>((props, r
   /* ----------------------------- Scroll Tracking ---------------------------- */
   const scrollDims = useDocumentSize();
   useScrollPosition(() => {
-    if (sections.current) {
+    if (sections.current && window.current) {
       const axis = orientation === 'vertical' ? 'y' : 'x';
       const axisEnd = orientation === 'vertical' ? 'bottom' : 'right';
       const s = sections.current;
       let topMost: (SectionObj & { id: string }) | undefined;
+
+      const wRect = window.current.element.getBoundingClientRect();
+      const offset = {
+        top: orientation === 'vertical' ? wRect.top : wRect.left,
+        btm: orientation === 'vertical' ? wRect.bottom : wRect.right,
+      }; //{ top: topOffset, btm: btmOffset };
       Object.entries(s).forEach(([id, section]) => {
         if (section) {
           const pos = section.position;
-          let offset = { top: topOffset, btm: btmOffset };
 
           // If flipped we have to reverse offsets and
           // subtract them from the scroll dimension.
-          if (flipped) {
+          /*if (flipped) {
             const dim = axis === 'y' ? scrollDims.height : scrollDims.width;
             offset = { top: dim - btmOffset, btm: dim - topOffset };
-          }
+          }*/
 
           if (
             doesOverlap(
@@ -195,7 +252,7 @@ const STG = React.forwardRef<HTMLDivElement, ScrollTrackingGroupProps>((props, r
 
       if (topMost) setScrolledTo([topMost.id, topMost.element]);
     }
-  }, [flipped, topOffset, btmOffset, orientation, scrollDims]);
+  }, [window, flipped, orientation, scrollDims, lastUpdated]);
   /* ------------------------------------ * ----------------------------------- */
   /* --------------------------------- Render --------------------------------- */
   return <div ref={innerRef}>{children}</div>;
@@ -218,12 +275,15 @@ const STGWithContext = React.forwardRef<HTMLDivElement, ScrollTrackingGroupProps
 // Mimic React's subcomponent architecture for exporting
 // so we can use both <ScrollTrackingGroup>
 // and <ScrollTrackingGroup.Section>
-type ScrollTrackingGroupComponent = typeof STGWithContext & { Section: typeof Section };
+type ScrollTrackingGroupComponent = typeof STGWithContext & {
+  Section: typeof Section;
+  Window: typeof Window;
+};
 
 /**
  * Tracks a group of `Sections` (divs) so that when a `Section` is scrolled into a `window` defined by two `offsets`
  *      it is seen as the current Section and fires `onScrolledToChange`.
  */
-const ScrollTrackingGroup = { ...STGWithContext, Section } as ScrollTrackingGroupComponent;
+const ScrollTrackingGroup = { ...STGWithContext, Section, Window } as ScrollTrackingGroupComponent;
 
 export default ScrollTrackingGroup;
