@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useImperativeHandle, useEffect, useState } from 'react';
+import React, { useContext, useImperativeHandle, useEffect, useState } from 'react';
 import STGContextProvider, { STGContext, ISTGContext, SectionObj } from './context';
 import { SectionProps } from './Section';
 import { useScrollPosition } from './useScrollPosition';
@@ -49,17 +49,20 @@ const STGComponent = React.forwardRef<HTMLDivElement, ContainerProps>((props, re
     onScrolledToChange,
     orientation = 'vertical',
     flipped = false,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     localScroll = false,
     id: _id,
   } = props;
   // TODO: Implement localScroll
-  // TODO: Implement sticky window div to use pos of in place of offsets
-  const { window, sections, saveRef, lastUpdated } = useContext(STGContext) as ISTGContext;
+  const {
+    container,
+    window: wind,
+    sections,
+    saveRef,
+    lastUpdated,
+  } = useContext(STGContext) as ISTGContext;
 
   /* ------------------------- Internal ref forwarding ------------------------ */
-  const innerRef = useRef<HTMLDivElement>(null);
-  useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
+  useImperativeHandle(ref, () => container.current as HTMLDivElement);
 
   /* --------------------------- Children useEffect --------------------------- */
   useEffect(() => {
@@ -88,53 +91,79 @@ const STGComponent = React.forwardRef<HTMLDivElement, ContainerProps>((props, re
   useEffect(() => {
     if (scrolledTo && onScrolledToChange) onScrolledToChange(...scrolledTo);
   }, [scrolledTo]);
+  /* ----------------------------- On First Render ---------------------------- */
+  const [isFirst, setIsFirst] = useState(true);
 
+  useEffect(() => {
+    // Is technically 'first' for us until refs are available
+    if (isFirst) {
+      if (
+        container.current &&
+        wind.current &&
+        sections.current &&
+        typeof document !== 'undefined'
+      ) {
+        // Once refs are available, artificially trigger
+        // scroll event to initialize scroll tracking
+        window.dispatchEvent(new CustomEvent('scroll'));
+
+        setIsFirst(false);
+      }
+    }
+  });
   /* ----------------------------- Scroll Tracking ---------------------------- */
-  useScrollPosition(() => {
-    if (sections.current && window.current) {
-      const axis = orientation === 'vertical' ? 'y' : 'x';
-      const axisEnd = orientation === 'vertical' ? 'bottom' : 'right';
-      const s = sections.current;
-      let topMost: (SectionObj & { id: string }) | undefined;
+  useScrollPosition(
+    ({ currPos }) => {
+      if (sections.current && wind.current) {
+        const axis = orientation === 'vertical' ? 'y' : 'x';
+        const axisEnd = orientation === 'vertical' ? 'bottom' : 'right';
+        const s = sections.current;
+        let topMost: (SectionObj & { id: string }) | undefined;
 
-      const wRect = window.current.element.getBoundingClientRect();
-      const offset = {
-        top: orientation === 'vertical' ? wRect.top : wRect.left,
-        btm: orientation === 'vertical' ? wRect.bottom : wRect.right,
-      }; //{ top: topOffset, btm: btmOffset };
-      Object.entries(s).forEach(([id, section]) => {
-        if (section) {
-          const pos = section.position;
+        const wRect = currPos;
+        const offset = {
+          top: orientation === 'vertical' ? wRect.top : wRect.left,
+          btm: orientation === 'vertical' ? wRect.bottom : wRect.right,
+        };
+        Object.entries(s).forEach(([id, section]) => {
+          if (section) {
+            const pos = section.position;
 
-          if (
-            doesOverlap(
-              { start: offset.top, end: offset.btm },
-              { start: pos[axis], end: pos[axisEnd] }
-            )
-          ) {
-            // If this section's position is further up the page than current topMost section
-            // or if topMost hasn't been set, set this section as topMost.
             if (
-              (topMost &&
-                (!flipped
-                  ? pos[axis] < topMost.position[axis]
-                  : pos[axis] > topMost.position[axis])) ||
-              !topMost
+              doesOverlap(
+                { start: offset.top, end: offset.btm },
+                { start: pos[axis], end: pos[axisEnd] }
+              )
             ) {
-              topMost = { id, ...section };
+              // If this section's position is further up the page than current topMost section
+              // or if topMost hasn't been set, set this section as topMost.
+              if (
+                (topMost &&
+                  (!flipped
+                    ? pos[axis] < topMost.position[axis]
+                    : pos[axis] > topMost.position[axis])) ||
+                !topMost
+              ) {
+                topMost = { id, ...section };
+              }
             }
           }
-        }
-      });
+        });
 
-      if (topMost) setScrolledTo([topMost.id, topMost.element]);
-    }
-  }, [window, flipped, orientation, lastUpdated]);
+        if (topMost) setScrolledTo([topMost.id, topMost.element]);
+      }
+    },
+    [wind, flipped, orientation, lastUpdated],
+    wind,
+    undefined,
+    undefined,
+    localScroll ? container : undefined
+  );
   /* ------------------------------------ * ----------------------------------- */
   /* --------------------------------- Render --------------------------------- */
   return (
     <div style={{ position: 'relative' }} key={`${_id}.Container`}>
-      <div key={_id} ref={innerRef}>
+      <div key={_id} ref={container}>
         {children}
       </div>
     </div>
@@ -146,7 +175,11 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>((props, ref) 
   const { children, ...spread } = props;
 
   return (
-    <STGContextProvider flipped={props.flipped} orientation={props.orientation}>
+    <STGContextProvider
+      flipped={props.flipped}
+      orientation={props.orientation}
+      localScroll={props.localScroll}
+    >
       <STGComponent ref={ref} {...spread}>
         {children}
       </STGComponent>

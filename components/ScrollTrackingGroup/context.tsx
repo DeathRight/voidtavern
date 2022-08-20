@@ -2,21 +2,22 @@ import { createContext, Dispatch, SetStateAction, useCallback, useRef, useState 
 import { IPosition } from './useScrollPosition/useScrollPosition';
 
 export type Coordinates = { x: number; y: number };
-export type Size = { width: number; height: number };
 
 export type Orientation = 'vertical' | 'horizontal';
 
-export type SectionObj = { element: HTMLDivElement; position: IPosition; size: Size };
+export type SectionObj = { element: HTMLDivElement; position: IPosition };
 export type SectionsObj = { [k: string]: SectionObj | undefined | null };
 
 export interface ISTGContext {
+  container: React.MutableRefObject<HTMLDivElement | null>;
   sections: React.MutableRefObject<SectionsObj>;
-  window: React.MutableRefObject<SectionObj | undefined | null>;
+  window: React.MutableRefObject<HTMLDivElement | undefined>;
   saveRef: (e: HTMLDivElement | null, key: string) => void;
   lastUpdated: number;
   setLastUpdated: Dispatch<SetStateAction<number>>;
   flipped: boolean;
   orientation: Orientation;
+  localScroll: boolean;
 }
 
 export const STGContext = createContext<ISTGContext | null>(null);
@@ -25,10 +26,12 @@ const STGContextProvider = (props: {
   children: React.ReactNode;
   flipped?: boolean;
   orientation?: Orientation;
+  localScroll?: boolean;
 }) => {
-  const { children, flipped = false, orientation = 'vertical' } = props;
+  const { children, flipped = false, orientation = 'vertical', localScroll = false } = props;
 
-  const window = useRef<SectionObj | undefined | null>(null);
+  const container = useRef<HTMLDivElement | null>(null);
+  const window = useRef<HTMLDivElement | undefined>();
   const sections = useRef<SectionsObj>({});
   const [lastUpdated, setLastUpdated] = useState(Date.now());
   const saveRef = useCallback(
@@ -46,9 +49,8 @@ const STGContextProvider = (props: {
             right: coords.right,
             bottom: coords.right,
           },
-          size: { width: coords.width, height: coords.height },
         };
-        if (key === 'STG.Window') window.current = section;
+        if (key === 'STG.Window') window.current = e;
         else sections.current[key] = section;
       } else if (!e && sections.current[key]) delete sections.current[key];
       setLastUpdated(Date.now());
@@ -58,7 +60,17 @@ const STGContextProvider = (props: {
 
   return (
     <STGContext.Provider
-      value={{ window, sections, saveRef, lastUpdated, setLastUpdated, flipped, orientation }}
+      value={{
+        container,
+        window,
+        sections,
+        saveRef,
+        lastUpdated,
+        setLastUpdated,
+        flipped,
+        orientation,
+        localScroll,
+      }}
     >
       {children}
     </STGContext.Provider>

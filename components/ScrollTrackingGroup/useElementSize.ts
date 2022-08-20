@@ -36,7 +36,7 @@ const subscribe: SubscribeToSizeChanges = Object.assign(
   }
 );
 
-export const useElementSize = <T extends HTMLElement>(ref?: RefObject<T>) => {
+export const useElementSize = <T extends HTMLElement>(ref?: RefObject<T | undefined>) => {
   const elRef = useRef<T | null | undefined>(null);
   const [{ height, width }, setSize] = useState<{
     height?: number;

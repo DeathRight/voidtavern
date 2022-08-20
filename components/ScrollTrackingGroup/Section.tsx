@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useContext, useMemo, useRef } from 'react';
 import { STGContext, ISTGContext } from './context';
 import { useScrollPosition } from './useScrollPosition';
 
@@ -6,40 +6,37 @@ export type SectionProps = { children: React.ReactNode; id: string };
 const Section = (props: SectionProps) => {
   const { children, id } = props;
 
-  const { saveRef, sections, lastUpdated } = useContext(STGContext) as ISTGContext;
+  const { saveRef, container, sections, lastUpdated, localScroll } = useContext(
+    STGContext
+  ) as ISTGContext;
   const innerRef = useRef<HTMLElement | undefined>();
-  /* ------------------------------ Size Tracking ----------------------------- */
-  /*const { width, height, ref: sizeRef } = useElementSize<HTMLDivElement>();
-  useEffect(() => {
-    // Only track size if flipped, because that is the only time we'd use it
-    if (flipped) {
-      if (sections.current[id]) {
-        sections.current[id]!.size = { width: width ?? 0, height: height || 0 };
-      }
-    }
-  }, [width, height, flipped]);*/
   /* ---------------------------- Position Tracking --------------------------- */
   useScrollPosition(
     ({ currPos }) => {
       if (sections.current[id]) sections.current[id]!.position = currPos;
     },
     [lastUpdated],
-    innerRef
+    innerRef,
+    undefined,
+    undefined,
+    localScroll ? container : undefined
   );
-  // TODO: Add localScroll behavior
   /* --------------------------------- Render --------------------------------- */
-  return (
-    <div
-      ref={(e) => {
-        //if (flipped) sizeRef.current = e;
-        innerRef.current = e ?? undefined;
-        if (e) saveRef(e, id);
-      }}
-      key={id}
-    >
-      {children}
-    </div>
+  const section = useMemo(
+    () => (
+      <div
+        ref={(e) => {
+          innerRef.current = e ?? undefined;
+          if (e) saveRef(e, id);
+        }}
+        key={id}
+      >
+        {children}
+      </div>
+    ),
+    [children, innerRef]
   );
+  return <>{section}</>;
 };
 
 export default Section;

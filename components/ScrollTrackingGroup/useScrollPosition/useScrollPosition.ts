@@ -15,7 +15,7 @@ export interface IScrollProps {
   currPos: IPosition;
 }
 
-export type ElementRef = MutableRefObject<HTMLElement | undefined>;
+export type ElementRef = MutableRefObject<HTMLElement | undefined | null>;
 
 const isBrowser = typeof window !== 'undefined';
 const zeroPosition: IPosition = {
@@ -54,7 +54,7 @@ const getScrollPosition = ({
   }
 
   const targetPosition = getClientRect(element?.current || document.body);
-  const containerPosition = getClientRect(boundingElement?.current);
+  const containerPosition = getClientRect(boundingElement?.current ?? undefined);
 
   if (!targetPosition) {
     return zeroPosition;
@@ -123,15 +123,19 @@ export const useScrollPosition = (
 
     if (boundingElement) {
       boundingElement.current?.addEventListener('scroll', handleScroll, { passive: true });
+      boundingElement.current?.addEventListener('resize', handleScroll, { passive: true });
     } else {
       window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', handleScroll, { passive: true });
     }
 
     return () => {
       if (boundingElement) {
         boundingElement.current?.removeEventListener('scroll', handleScroll);
+        boundingElement.current?.removeEventListener('resize', handleScroll);
       } else {
         window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
       }
 
       if (throttleTimeout) {
