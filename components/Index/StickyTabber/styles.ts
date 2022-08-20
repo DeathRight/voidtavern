@@ -18,6 +18,7 @@ const useStyle = createStyles((theme) => ({
     flex: 1,
     minWidth: '100%',
     overflow: 'auto',
+    zIndex: 50,
   },
   btn: {
     pointerEvents: 'auto',

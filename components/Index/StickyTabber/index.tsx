@@ -2,6 +2,7 @@ import { ActionIcon, Box, BoxProps, Group, Tabs, TabsProps } from '@mantine/core
 import { IconMoon, IconTextDirectionLtr } from '@tabler/icons';
 import { useTranslation } from 'next-i18next';
 import React, { useId, useMemo } from 'react';
+import { useRouter } from 'next/router';
 import useStyle from './styles';
 import common from '../../../public/locales/en/common.json';
 
@@ -16,6 +17,7 @@ export default React.forwardRef<HTMLDivElement, StickyTabberProps>((props, ref) 
   const { classes } = useStyle();
   const uId = useId();
   const { t } = useTranslation('common');
+  const router = useRouter();
 
   const tabList = useMemo(
     () =>
@@ -49,7 +51,7 @@ export default React.forwardRef<HTMLDivElement, StickyTabberProps>((props, ref) 
 
   return (
     <Box ref={ref} className={classes.main} {...boxProps}>
-      <Tabs className={classes.btn} {...tabProps}>
+      <Tabs className={classes.btn} {...tabProps} onTabChange={(id) => router.push(`/#${id}`)}>
         <Tabs.List>{tabList}</Tabs.List>
       </Tabs>
       {headerButtonSpacers}
