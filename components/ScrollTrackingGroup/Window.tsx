@@ -66,7 +66,7 @@ const Window = (props: WindowProps) => {
         style={s}
       />
     );
-  }, [side, size]);
+  }, [side, size, offset]);
 
   const flexD = `${orientation === 'vertical' ? 'column' : 'row'}${flipped ? '-reverse' : ''}`;
 
