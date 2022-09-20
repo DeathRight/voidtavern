@@ -1,6 +1,6 @@
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import { createStylesServer, ServerStyles } from '@mantine/next';
-import { rtlCache } from '../utils/rtl-cache';
+import { rtlCache } from '../common/utils/rtl-cache';
 import i18nextConfig from '../next-i18next.config';
 
 const stylesServer = createStylesServer(rtlCache);

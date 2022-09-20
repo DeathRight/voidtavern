@@ -1,4 +1,4 @@
-import { Box, Title, Text, useMantineTheme, Divider } from '@mantine/core';
+import { Box, Title, Text, useMantineTheme } from '@mantine/core';
 import { useTranslation } from 'next-i18next';
 import useStyle from './styles';
 
@@ -55,7 +55,6 @@ export default () => {
           Travis Baldwin
         </Text>
       </Text>
-      <Divider />
     </Box>
   );
 };

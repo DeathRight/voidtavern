@@ -6,9 +6,9 @@ import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider, AppShell } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { appWithTranslation } from 'next-i18next';
-import { rtlCache } from '../utils/rtl-cache';
-import AppHeader from '../components/AppHeader/AppHeader';
-import theme from '../utils/MantineTheme/MantineThemeOverride';
+import { rtlCache } from '../common/utils/rtl-cache';
+import AppHeader from '../common/components/AppHeader/AppHeader';
+import theme from '../modules/MantineTheme/MantineThemeOverride';
 
 function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;

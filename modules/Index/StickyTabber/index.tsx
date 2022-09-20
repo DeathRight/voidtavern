@@ -51,8 +51,9 @@ export default React.forwardRef<HTMLDivElement, StickyTabberProps>((props, ref) 
 
   return (
     <Box ref={ref} className={classes.main} {...boxProps}>
+      {headerButtonSpacers}
       <Tabs className={classes.btn} {...tabProps} onTabChange={(id) => router.push(`/#${id}`)}>
-        <Tabs.List>{tabList}</Tabs.List>
+        <Tabs.List position="center">{tabList}</Tabs.List>
       </Tabs>
       {headerButtonSpacers}
     </Box>
