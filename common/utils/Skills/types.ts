@@ -1,4 +1,4 @@
-import React from 'react';
+import { IconType } from 'react-icons';
 
 /* ---------------------------------- Enums --------------------------------- */
 export enum SkillLevel {
@@ -6,6 +6,8 @@ export enum SkillLevel {
   Intermediate,
   Advanced,
 }
+
+export const SkillLevelLength = Object.keys(SkillLevel).length;
 
 export enum ToolType {
   Framework,
@@ -16,10 +18,10 @@ export enum ToolType {
 export type SkillList = Skill[];
 
 /* ------------------------------- Interfaces ------------------------------- */
-interface Skill {
+export interface Skill {
   id: string;
   name: string;
-  icon: React.FC;
+  icon: IconType;
   level: SkillLevel;
 }
 
@@ -38,4 +40,12 @@ export interface Tool extends Language {
 /* ------------------------------- Type Guards ------------------------------ */
 export function isDatabase(skill: Skill): skill is Database {
   return (skill as Language).start === undefined;
+}
+
+export function isLanguage(skill: Skill): skill is Language {
+  return (skill as Language).start !== undefined && (skill as Tool).type === undefined;
+}
+
+export function isTool(skill: Skill): skill is Tool {
+  return (skill as Tool).type !== undefined;
 }

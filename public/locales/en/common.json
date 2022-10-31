@@ -10,6 +10,10 @@
   "portfolio": "A portfolio for",
   "sections": {
     "about": "About",
-    "lang": "Languages"
+    "lang": "Languages",
+    "fw": "Frameworks",
+    "env": "Environments",
+    "lib": "Libraries",
+    "db": "Databases"
   }
 }

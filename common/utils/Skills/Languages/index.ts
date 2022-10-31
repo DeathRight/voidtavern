@@ -1,4 +1,3 @@
-import { SkillList } from '../types';
 import csharp from './csharp';
 import css from './css';
 import html from './html';
@@ -14,4 +13,4 @@ export {
   html as HTML,
   css as CSS,
 };
-export default [csharp, java, javascript, typescript, html, css] as SkillList;
+export default [csharp, java, javascript, typescript, html, css];

@@ -3,7 +3,7 @@ import { Language, SkillLevel } from '../types';
 
 const skill: Language = {
   id: 'l-01',
-  name: 'CSharp',
+  name: 'C#',
   icon: SiCsharp,
   level: SkillLevel.Intermediate,
   start: new Date(2010, 0),

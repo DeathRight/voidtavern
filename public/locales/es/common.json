@@ -10,6 +10,10 @@
   "portfolio": "Un portafolio para",
   "sections": {
     "about": "Sobre",
-    "lang": "Idiomas"
+    "lang": "Idiomas",
+    "fw": "Frameworks",
+    "env": "Environments",
+    "lib": "Libraries",
+    "db": "Databases"
   }
 }
