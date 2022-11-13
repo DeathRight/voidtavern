@@ -1,0 +1,12 @@
+{
+  "welcome": "Bienvenue à la",
+  "portfolio": "Un portefeuille pour",
+  "sections": {
+    "about": "Au sujet de",
+    "lang": "Langages",
+    "fw": "Frameworks",
+    "env": "Environments",
+    "lib": "Libraries",
+    "db": "Databases"
+  }
+}

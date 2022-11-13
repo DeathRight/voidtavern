@@ -1,11 +1,13 @@
-import { Grid, Stack } from '@mantine/core';
-import { IconCode, IconInfoCircle } from '@tabler/icons';
+import { Grid } from '@mantine/core';
+import { MdOutlineLocalLibrary } from 'react-icons/md';
+import { RiCodeBoxLine } from 'react-icons/ri';
+import { IconCode, IconDatabase, IconInfoCircle, IconTerminal2 } from '@tabler/icons';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next/types';
-import React, { useId, useMemo, useState } from 'react';
+import React, { useId, useMemo } from 'react';
+import { useTranslation } from 'next-i18next';
 import PageBody from '../common/components/common/PageBody';
 import Row from '../common/components/common/Row';
-import Section from '../common/components/common/Section';
 import Databases from '../common/utils/Skills/Databases';
 import Environments from '../common/utils/Skills/Environments';
 import Frameworks from '../common/utils/Skills/Frameworks';
@@ -13,25 +15,23 @@ import Languages from '../common/utils/Skills/Languages';
 import Libraries from '../common/utils/Skills/Libraries';
 import About from '../modules/Index/About';
 import SkillCard from '../common/components/Skill/SkillCard';
-import STG from '../common/components/common/STG';
-import { StickyTabber, SectionTabObj } from '../common/components/common/StickyTabber';
+import { SectionTabObj } from '../common/components/common/StickyTabber';
 import VoidTavernWelcome from '../modules/Index/VoidTavernWelcome';
 import PageHeading from '../common/components/common/PageHeading';
-import PageHeader from '../common/components/common/PageHeader';
+import PageSection from '../common/components/common/PageSection';
 
 export default function HomePage() {
   const sections: SectionTabObj[] = [
     { id: 'about', icon: <IconInfoCircle /> },
     { id: 'lang', icon: <IconCode /> },
-    { id: 'fw', icon: <IconCode /> },
-    { id: 'env', icon: <IconCode /> },
-    { id: 'lib', icon: <IconCode /> },
-    { id: 'db', icon: <IconCode /> },
+    { id: 'fw', icon: <RiCodeBoxLine size="1.5rem" /> },
+    { id: 'env', icon: <IconTerminal2 /> },
+    { id: 'lib', icon: <MdOutlineLocalLibrary size="1.5rem" /> },
+    { id: 'db', icon: <IconDatabase /> },
   ];
 
-  const [scrolledTo, setScrolledTo] = useState('About');
-
   const uId = useId();
+  const { t } = useTranslation('home');
 
   /* ------------------------------- Card Groups ------------------------------ */
   const langCards = useMemo(
@@ -82,59 +82,35 @@ export default function HomePage() {
           <VoidTavernWelcome />
         </Row>
       </PageHeading>
-      <PageHeader>
-        <StickyTabber tabs={sections} value={scrolledTo} />
-      </PageHeader>
-      <PageBody>
-        <STG.Container
-          id={uId}
-          onScrolledToChange={(id) => setScrolledTo(id.substring(uId.length + 1))}
-          outerStyle={{ width: '100%' }}
-        >
-          <STG.Window id={`${uId}.Window`} offset="35vh" />
-          <Stack align="flex-start">
-            <STG.Section id={`${uId}.about`} style={{ width: '100%' }}>
-              <Section id="about" title="About Me">
-                <About />
-              </Section>
-            </STG.Section>
-            <STG.Section id={`${uId}.lang`} style={{ width: '100%' }}>
-              <Section id="lang" title="Languages">
-                <Grid grow id="langs">
-                  {langCards}
-                </Grid>
-              </Section>
-            </STG.Section>
-            <STG.Section id={`${uId}.fw`} style={{ width: '100%' }}>
-              <Section id="fw" title="Frameworks">
-                <Grid grow id="fws">
-                  {fwCards}
-                </Grid>
-              </Section>
-            </STG.Section>
-            <STG.Section id={`${uId}.env`} style={{ width: '100%' }}>
-              <Section id="env" title="Environments">
-                <Grid grow id="envs">
-                  {envCards}
-                </Grid>
-              </Section>
-            </STG.Section>
-            <STG.Section id={`${uId}.lib`} style={{ width: '100%' }}>
-              <Section id="lib" title="Libraries">
-                <Grid grow id="libs">
-                  {libCards}
-                </Grid>
-              </Section>
-            </STG.Section>
-            <STG.Section id={`${uId}.db`} style={{ width: '100%' }}>
-              <Section id="db" title="Databases">
-                <Grid grow id="dbs">
-                  {dbCards}
-                </Grid>
-              </Section>
-            </STG.Section>
-          </Stack>
-        </STG.Container>
+      <PageBody id={uId} t={t} tabs={sections}>
+        <PageSection globalId={uId} t={t} id="about">
+          <About />
+        </PageSection>
+        <PageSection globalId={uId} t={t} id="lang">
+          <Grid grow id="langs">
+            {langCards}
+          </Grid>
+        </PageSection>
+        <PageSection globalId={uId} t={t} id="fw">
+          <Grid grow id="fws">
+            {fwCards}
+          </Grid>
+        </PageSection>
+        <PageSection globalId={uId} t={t} id="env">
+          <Grid grow id="envs">
+            {envCards}
+          </Grid>
+        </PageSection>
+        <PageSection globalId={uId} t={t} id="lib">
+          <Grid grow id="libs">
+            {libCards}
+          </Grid>
+        </PageSection>
+        <PageSection globalId={uId} t={t} id="db">
+          <Grid grow id="dbs">
+            {dbCards}
+          </Grid>
+        </PageSection>
       </PageBody>
     </>
   );
@@ -142,6 +118,6 @@ export default function HomePage() {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale as string, ['common'])),
+    ...(await serverSideTranslations(locale as string, ['common', 'home'])),
   },
 });

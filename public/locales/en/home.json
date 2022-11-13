@@ -1,0 +1,12 @@
+{
+  "welcome": "Welcome to the",
+  "portfolio": "A portfolio for",
+  "sections": {
+    "about": "About Me",
+    "lang": "Languages",
+    "fw": "Frameworks",
+    "env": "Environments",
+    "lib": "Libraries",
+    "db": "Databases"
+  }
+}

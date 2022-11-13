@@ -1,21 +1,41 @@
 import { Box, BoxProps, ScrollArea, Tabs, TabsProps } from '@mantine/core';
-import { useTranslation } from 'next-i18next';
+import { TFunction } from 'next-i18next';
 import React, { useEffect, useId, useMemo, useRef } from 'react';
 import { useRouter } from 'next/router';
 import useStyle from './styles';
-import common from '../../../../public/locales/en/common.json';
+import { Resources } from '../../../../types/LocaleTranslation';
 
-export type SectionTabObj = { id: keyof typeof common.sections; icon: React.ReactNode };
-type StickyTabberProps = Omit<TabsProps, 'children'> & {
-  boxProps?: BoxProps;
-  tabs: SectionTabObj[];
+/**
+ * Object containing ID and Icon to be used for tabs, with
+ * dynamic typing for specific translation namespaces
+ */
+export type SectionTabObj<S extends { sections: { [K: string]: string } } = Resources['home']> = {
+  id: keyof S['sections'];
+  icon: React.ReactNode;
 };
 
+export interface StickyTabberProps extends Omit<TabsProps, 'children'> {
+  boxProps?: BoxProps;
+  tabs: SectionTabObj[];
+  /**
+   * i18next `t` function attached to a namespace that has a
+   * `sections` subnamespace, which must
+   * have IDs that match those in the `tabs` property
+   *
+   * e.g.:
+   * ```ts
+   * const { t } = useTranslation('home');
+   * // home.json: { ..., sections: { ... } }
+   * return (<StickyTabber ... t={t} />)
+   * ```
+   */
+  t: TFunction;
+}
+
 export const StickyTabber = (props: StickyTabberProps) => {
-  const { tabs, className, boxProps, value, ...tabProps } = props;
+  const { tabs, t, className, boxProps, value, ...tabProps } = props;
   const { classes } = useStyle();
   const uId = useId();
-  const { t } = useTranslation('common');
   const router = useRouter();
 
   /* ---------------------------------- Tabs ---------------------------------- */
@@ -32,7 +52,7 @@ export const StickyTabber = (props: StickyTabberProps) => {
           value={id}
           icon={icon}
         >
-          {t(`sections.${id}`)}
+          {t(`sections.${id}`) as React.ReactNode}
         </Tabs.Tab>
       )),
     [tabs]

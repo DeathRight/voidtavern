@@ -9,7 +9,7 @@ const skill: Tool = {
   type: ToolType.Library,
   parentIds: [JavaScript.id, TypeScript.id],
   level: SkillLevel.Advanced,
-  start: new Date(2019),
+  start: new Date(2019, 0),
 };
 
 export default skill;

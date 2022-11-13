@@ -6,14 +6,11 @@
       "dark": "Passer en Mode Lumière"
     }
   },
-  "welcome": "Bienvenue à la",
-  "portfolio": "Un portefeuille pour",
-  "sections": {
-    "about": "Au sujet de",
-    "lang": "Langages",
-    "fw": "Frameworks",
-    "env": "Environments",
-    "lib": "Libraries",
-    "db": "Databases"
+  "skills": {
+    "expLvl": "Niveau D'expérience",
+    "expYrs": "Des Années D'expérience",
+    "Beginner": "Débutant",
+    "Intermediate": "Intermédiaire",
+    "Advanced": "Avancé"
   }
 }

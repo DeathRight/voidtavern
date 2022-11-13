@@ -1,0 +1,12 @@
+{
+  "welcome": "Bienvenido a la",
+  "portfolio": "Un portafolio para",
+  "sections": {
+    "about": "Sobre Mí",
+    "lang": "Idiomas",
+    "fw": "Frameworks",
+    "env": "Environments",
+    "lib": "Libraries",
+    "db": "Databases"
+  }
+}

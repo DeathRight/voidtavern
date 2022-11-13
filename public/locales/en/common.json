@@ -6,14 +6,11 @@
       "dark": "Switch to Light Mode"
     }
   },
-  "welcome": "Welcome to the",
-  "portfolio": "A portfolio for",
-  "sections": {
-    "about": "About",
-    "lang": "Languages",
-    "fw": "Frameworks",
-    "env": "Environments",
-    "lib": "Libraries",
-    "db": "Databases"
+  "skills": {
+    "expLvl": "Experience Level",
+    "expYrs": "Years of Experience",
+    "Beginner": "Beginner",
+    "Intermediate": "Intermediate",
+    "Advanced": "Advanced"
   }
 }

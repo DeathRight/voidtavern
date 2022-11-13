@@ -1,6 +1,6 @@
 import { Stack, Title, TitleProps } from '@mantine/core';
 
-interface SectionProps {
+export interface SectionProps {
   children: React.ReactNode;
   id: string;
   titleProps?: TitleProps;

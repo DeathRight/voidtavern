@@ -1,7 +1,15 @@
 import { Card, Divider, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import { useId, useMemo } from 'react';
+import { useTranslation } from 'next-i18next';
+import dayjs from 'dayjs';
 import DynamicProgress from '../../DynamicProgress';
-import { Skill, SkillLevel, SkillLevelLength } from '../../../utils/Skills/types';
+import {
+  isLanguage,
+  isTool,
+  Skill,
+  SkillLevel,
+  SkillLevelLength,
+} from '../../../utils/Skills/types';
 
 interface SkillCardProps {
   skill: Skill;
@@ -10,7 +18,9 @@ interface SkillCardProps {
 const SkillCard = (props: SkillCardProps) => {
   const { skill } = props;
   const uId = useId();
+  const { t } = useTranslation('common');
 
+  /* ------------------------------- Components ------------------------------- */
   const SCard = useMemo(() => {
     const lvlP = ((skill.level + 1) / (SkillLevelLength / 2)) * 100;
 
@@ -34,13 +44,31 @@ const SkillCard = (props: SkillCardProps) => {
       </Group>
     );
 
+    let YearsText = <></>;
+    if (isLanguage(skill) || isTool(skill)) {
+      const endDate = dayjs(skill.end ?? new Date(Date.now()));
+      const yrs = endDate.diff(skill.start, 'years');
+      YearsText = (
+        <Divider
+          label={
+            <>
+              {t('skills.expYrs')}:&nbsp;
+              <Text color="info" weight="bold">
+                {yrs}
+              </Text>
+            </>
+          }
+        />
+      );
+    }
+
     const LevelText = (
       <Divider
         label={
           <>
-            Experience Level:&nbsp;
+            {t('skills.expLvl')}:&nbsp;
             <Text color="info" weight="bold">
-              {SkillLevel[skill.level]}
+              {t(`skills.${SkillLevel[skill.level]}` as 'skills.Beginner')}
             </Text>
           </>
         }
@@ -52,7 +80,7 @@ const SkillCard = (props: SkillCardProps) => {
         value={lvlP}
       />
     );
-
+    /* ------------------------------------ * ----------------------------------- */
     return (
       <Stack key={uId} mr="auto" py="md">
         <Card style={{ minWidth: '320px' }} p="xs" mr="auto" withBorder>
@@ -65,6 +93,7 @@ const SkillCard = (props: SkillCardProps) => {
           >
             {Header}
           </Card.Section>
+          {YearsText}
           {LevelText}
           {LevelBar}
         </Card>
