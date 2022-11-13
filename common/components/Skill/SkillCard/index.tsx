@@ -1,7 +1,7 @@
 import { Card, Divider, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import { useId, useMemo } from 'react';
-import DynamicProgress from '../../../common/components/DynamicProgress';
-import { Skill, SkillLevel, SkillLevelLength } from '../../../common/utils/Skills/types';
+import DynamicProgress from '../../DynamicProgress';
+import { Skill, SkillLevel, SkillLevelLength } from '../../../utils/Skills/types';
 
 interface SkillCardProps {
   skill: Skill;

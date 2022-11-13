@@ -47,6 +47,7 @@ function App(props: AppProps & { colorScheme: ColorScheme }) {
                     onRtlToggle={(v) => setRtl(v)}
                   />
                 }
+                styles={() => ({ main: { padding: '0', margin: '0', width: '100%' } })}
               >
                 <Component {...pageProps} />
               </AppShell>

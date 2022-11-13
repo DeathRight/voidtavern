@@ -17,19 +17,16 @@ interface SectionProps {
  * A hash (#) navigateable Section of content.
  */
 const Section = (props: SectionProps) => {
-  const {
-    children,
-    id,
-    titleProps = { order: 1, align: 'left', ml: '2rem' },
-    title,
-    headerSize = '50px',
-  } = props;
+  const { children, id, titleProps, title, headerSize = '50px' } = props;
+
+  const defTitleProps: TitleProps = { order: 1, align: 'left', ml: '2rem' };
+  const tProps: TitleProps = titleProps ? { ...defTitleProps, ...titleProps } : defTitleProps;
 
   return (
     <>
       <div style={{ position: 'relative', top: `-${headerSize}` }} id={id} />
       <Stack align="left">
-        {title && <Title {...titleProps}>{title}</Title>}
+        {title && <Title {...tProps}>{title}</Title>}
         {children}
       </Stack>
     </>

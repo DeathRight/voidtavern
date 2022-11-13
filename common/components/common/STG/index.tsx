@@ -1,6 +1,6 @@
 import { ContainerProps, SectionProps, WindowProps } from '@deathright/react-scrolltrackinggroup';
 import STG from '@deathright/react-scrolltrackinggroup/ScrollTrackingGroup';
-import useIsClient from '../../../common/hooks/useIsClient';
+import useIsClient from '../../../hooks/useIsClient';
 
 const Container = (props: ContainerProps) => {
   const isClient = useIsClient();

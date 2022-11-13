@@ -12,10 +12,12 @@ import Frameworks from '../common/utils/Skills/Frameworks';
 import Languages from '../common/utils/Skills/Languages';
 import Libraries from '../common/utils/Skills/Libraries';
 import About from '../modules/Index/About';
-import SkillCard from '../modules/Index/SkillCard';
-import STG from '../modules/Index/STG';
-import StickyTabber, { SectionTabObj } from '../modules/Index/StickyTabber';
+import SkillCard from '../common/components/Skill/SkillCard';
+import STG from '../common/components/common/STG';
+import { StickyTabber, SectionTabObj } from '../common/components/common/StickyTabber';
 import VoidTavernWelcome from '../modules/Index/VoidTavernWelcome';
+import PageHeading from '../common/components/common/PageHeading';
+import PageHeader from '../common/components/common/PageHeader';
 
 export default function HomePage() {
   const sections: SectionTabObj[] = [
@@ -75,11 +77,14 @@ export default function HomePage() {
 
   return (
     <>
-      <Row>
-        <VoidTavernWelcome />
-      </Row>
-      <StickyTabber tabs={sections} value={scrolledTo} />
-
+      <PageHeading>
+        <Row>
+          <VoidTavernWelcome />
+        </Row>
+      </PageHeading>
+      <PageHeader>
+        <StickyTabber tabs={sections} value={scrolledTo} />
+      </PageHeader>
       <PageBody>
         <STG.Container
           id={uId}

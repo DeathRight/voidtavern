@@ -1,9 +1,9 @@
-import ProjectBody from '../../components/common/ProjectBody';
 import { SkillList } from '../Skills/types';
 
 export interface Project {
   id: number;
+  name: string;
   link: string;
   skills: SkillList;
-  body: typeof ProjectBody;
+  body: React.ReactNode;
 }
