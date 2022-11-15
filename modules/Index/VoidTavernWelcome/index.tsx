@@ -5,7 +5,7 @@ import useStyle from './styles';
 export default () => {
   const { classes } = useStyle();
   const theme = useMantineTheme();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('home');
   return (
     <Box
       dir="ltr"

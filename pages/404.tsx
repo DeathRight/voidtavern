@@ -1,12 +1,12 @@
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import PageBody from '../common/components/common/PageBody';
+import PageContent from '../common/components/common/PageContent';
 
 export default function Custom404() {
   return (
-    <PageBody>
+    <PageContent>
       <h1>404 - Page Not Found</h1>
-    </PageBody>
+    </PageContent>
   );
 }
 

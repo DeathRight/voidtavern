@@ -1,4 +1,5 @@
 import { BoxProps, Box } from '@mantine/core';
+import PageContent from '../PageContent';
 
 const PageHeading = (props: BoxProps) => {
   const { children, sx: _sx, ...spread } = props;
@@ -11,9 +12,11 @@ const PageHeading = (props: BoxProps) => {
   });
 
   return (
-    <Box sx={_sx ?? defSx} {...spread}>
-      {children}
-    </Box>
+    <PageContent>
+      <Box sx={_sx ?? defSx} {...spread}>
+        {children}
+      </Box>
+    </PageContent>
   );
 };
 

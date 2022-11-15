@@ -1,9 +1,9 @@
-import { Box, BoxProps, Stack } from '@mantine/core';
+import { BoxProps, Stack } from '@mantine/core';
 import React, { useState } from 'react';
 import PageHeader from '../PageHeader';
 import STG from '../STG';
 import { StickyTabber, StickyTabberProps } from '../StickyTabber';
-import useStyle from './styles';
+import PageContent from '../PageContent';
 
 interface PageBodyProps
   extends Pick<BoxProps, 'style' | 'sx'>,
@@ -19,7 +19,6 @@ interface PageBodyProps
  */
 const PageBody = (props: PageBodyProps) => {
   const { id, children, t, tabs, ...spread } = props;
-  const { classes } = useStyle();
 
   const [scrolledTo, setScrolledTo] = useState(tabs[0].id as string);
 
@@ -28,7 +27,7 @@ const PageBody = (props: PageBodyProps) => {
       <PageHeader>
         <StickyTabber t={t} tabs={tabs} value={scrolledTo} />
       </PageHeader>
-      <Box className={classes.main} {...spread}>
+      <PageContent {...spread}>
         <STG.Container
           id={id}
           onScrolledToChange={(sId) => setScrolledTo(sId.substring(id.length + 1))}
@@ -37,7 +36,7 @@ const PageBody = (props: PageBodyProps) => {
           <STG.Window id={`${id}-Window`} offset="35vh" />
           <Stack align="flex-start">{children}</Stack>
         </STG.Container>
-      </Box>
+      </PageContent>
     </>
   );
 };

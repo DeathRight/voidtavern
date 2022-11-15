@@ -6,4 +6,5 @@ export interface Project {
   link: string;
   skills: SkillList;
   body: React.ReactNode;
+  description?: string;
 }
