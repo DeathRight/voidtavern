@@ -8,7 +8,7 @@ const PageHeading = (props: BoxProps) => {
     //backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
     width: '100%',
     paddingTop: '48px',
-    overflow: 'hidden',
+    //overflow: 'hidden',
   });
 
   return (

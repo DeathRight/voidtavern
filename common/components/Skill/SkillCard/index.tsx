@@ -1,5 +1,5 @@
-import { Card, Divider, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core';
-import { useId, useMemo } from 'react';
+import { Card, CardProps, Divider, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core';
+import { useId, useMemo, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import dayjs from 'dayjs';
 import DynamicProgress from '../../DynamicProgress';
@@ -10,15 +10,27 @@ import {
   SkillLevel,
   SkillLevelLength,
 } from '../../../utils/Skills/types';
+// eslint-disable-next-line import/no-cycle
+import SkillModal from '../SkillModal';
 
-interface SkillCardProps {
+interface SkillCardProps extends Omit<CardProps, 'children'> {
   skill: Skill;
+  withModal?: boolean;
 }
 
 const SkillCard = (props: SkillCardProps) => {
-  const { skill } = props;
+  const {
+    withModal = true,
+    skill,
+    style = { minWidth: '320px' },
+    p = 'xs',
+    mr = 'auto',
+    withBorder = true,
+  } = props;
   const uId = useId();
   const { t } = useTranslation('common');
+
+  const [open, setOpen] = useState(false);
 
   /* ------------------------------- Components ------------------------------- */
   const SCard = useMemo(() => {
@@ -82,26 +94,44 @@ const SkillCard = (props: SkillCardProps) => {
     );
     /* ------------------------------------ * ----------------------------------- */
     return (
-      <Stack key={uId} mr="auto" py="md">
-        <Card style={{ minWidth: '320px' }} p="xs" mr="auto" withBorder>
-          <Card.Section
-            component="a"
-            style={{ color: 'unset', textDecoration: 'unset' }}
-            href="/#lang"
-            p="md"
-            withBorder
-          >
-            {Header}
-          </Card.Section>
-          {YearsText}
-          {LevelText}
-          {LevelBar}
-        </Card>
-      </Stack>
+      <>
+        <Stack key={uId} mr="auto" py="md">
+          <Card style={style} p={p} mr={mr} withBorder={withBorder}>
+            <Card.Section
+              style={{
+                color: 'unset',
+                textDecoration: 'unset',
+                cursor: withModal ? 'pointer' : 'unset',
+                userSelect: 'none',
+              }}
+              p="md"
+              withBorder
+              onClick={() => (withModal ? setOpen(true) : undefined)}
+            >
+              {Header}
+            </Card.Section>
+            {YearsText}
+            {LevelText}
+            {LevelBar}
+          </Card>
+        </Stack>
+      </>
     );
   }, [skill]);
 
-  return <>{SCard}</>;
+  return (
+    <>
+      {withModal && (
+        <SkillModal
+          //key={`${uId}-SkillModal`}
+          skill={skill}
+          opened={open}
+          onClose={() => setOpen(false)}
+        />
+      )}
+      {SCard}
+    </>
+  );
 };
 
 export default SkillCard;

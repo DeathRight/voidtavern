@@ -1,6 +1,7 @@
 import { Badge } from '@mantine/core';
-import Link from 'next/link';
+import { useState } from 'react';
 import { Skill } from '../../../utils/Skills/types';
+import SkillModal from '../SkillModal';
 
 interface SkillBadgeProps {
   skill: Skill;
@@ -8,13 +9,20 @@ interface SkillBadgeProps {
 
 const SkillBadge = (props: SkillBadgeProps) => {
   const { skill } = props;
+  const [open, setOpen] = useState(false);
 
   return (
-    <Link href={`/skill/${skill.id}`} passHref>
-      <Badge component="a" leftSection={<skill.icon />}>
+    <>
+      <SkillModal skill={skill} opened={open} onClose={() => setOpen(false)} />
+      <Badge
+        component="a"
+        leftSection={<skill.icon />}
+        sx={{ cursor: 'pointer' }}
+        onClick={() => setOpen(true)}
+      >
         {skill.name}
       </Badge>
-    </Link>
+    </>
   );
 };
 

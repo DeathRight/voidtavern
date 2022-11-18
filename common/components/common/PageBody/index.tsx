@@ -20,7 +20,7 @@ interface PageBodyProps
 const PageBody = (props: PageBodyProps) => {
   const { id, children, t, tabs, ...spread } = props;
 
-  const [scrolledTo, setScrolledTo] = useState(tabs[0].id as string);
+  const [scrolledTo, setScrolledTo] = useState('About'); //tabs[0].id as string);
 
   return (
     <>

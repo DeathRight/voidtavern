@@ -28,15 +28,15 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps<{ pId: number; [key: string]: any }> = async ({
+export const getStaticProps: GetStaticProps<{ pId: string; [key: string]: any }> = async ({
   locale,
   params,
 }) => {
   const _pid = params?.pid;
-  const pId = Number(_pid);
 
+  if (!_pid || typeof _pid !== 'string') return { notFound: true };
+  const pId = _pid.toLowerCase();
   const project = Projects.find((p) => p.id === pId);
-
   if (!project) return { notFound: true };
 
   return {

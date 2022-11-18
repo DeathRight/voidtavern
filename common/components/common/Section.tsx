@@ -19,7 +19,7 @@ export interface SectionProps {
 const Section = (props: SectionProps) => {
   const { children, id, titleProps, title, headerSize = '50px' } = props;
 
-  const defTitleProps: TitleProps = { order: 2, align: 'left', ml: '2rem' };
+  const defTitleProps: TitleProps = { order: 2, align: 'left', ml: 'xl' };
   const tProps: TitleProps = titleProps ? { ...defTitleProps, ...titleProps } : defTitleProps;
 
   return (

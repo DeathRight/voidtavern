@@ -63,7 +63,7 @@ export const StickyTabber = (props: StickyTabberProps) => {
       const tabI = tabs.findIndex((v) => v.id === value);
       if (tabI !== -1) {
         const cTab = tabRefs.current[tabI];
-        if (cTab) cTab.scrollIntoView();
+        if (cTab) cTab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       }
     }
   }, [value]);

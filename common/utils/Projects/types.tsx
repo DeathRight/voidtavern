@@ -1,7 +1,7 @@
 import { SkillList } from '../Skills/types';
 
 export interface Project {
-  id: number;
+  id: string;
   name: string;
   link: string;
   skills: SkillList;

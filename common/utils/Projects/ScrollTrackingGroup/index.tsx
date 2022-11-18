@@ -68,7 +68,7 @@ const Body = () => {
 };
 
 const STGProject: Project = {
-  id: 0,
+  id: 'stg',
   name: 'ScrollTrackingGroup Component',
   link: 'https://github.com/DeathRight/ScrollTrackingGroup',
   description: 'React component that detects if a "Section" overlaps with a "Window"',
