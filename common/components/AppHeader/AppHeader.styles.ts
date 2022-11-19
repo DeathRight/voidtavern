@@ -11,8 +11,8 @@ export default createStyles((theme) => ({
     width: '100%',
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   btn: {
     pointerEvents: 'auto',

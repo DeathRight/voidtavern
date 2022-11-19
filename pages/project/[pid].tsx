@@ -24,7 +24,7 @@ export default ProjectRoutePage;
 export async function getStaticPaths() {
   return {
     paths: Projects.map((p) => ({ params: { pid: p.id.toString() } })),
-    fallback: 'blocking',
+    fallback: false,
   };
 }
 

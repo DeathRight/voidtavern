@@ -1,5 +1,5 @@
 import { Badge } from '@mantine/core';
-import { useState } from 'react';
+import { useDisclosure } from '@mantine/hooks';
 import { Skill } from '../../../utils/Skills/types';
 import SkillModal from '../SkillModal';
 
@@ -9,17 +9,12 @@ interface SkillBadgeProps {
 
 const SkillBadge = (props: SkillBadgeProps) => {
   const { skill } = props;
-  const [open, setOpen] = useState(false);
+  const [opened, { close, open }] = useDisclosure(false);
 
   return (
     <>
-      <SkillModal skill={skill} opened={open} onClose={() => setOpen(false)} />
-      <Badge
-        component="a"
-        leftSection={<skill.icon />}
-        sx={{ cursor: 'pointer' }}
-        onClick={() => setOpen(true)}
-      >
+      <SkillModal skill={skill} opened={opened} onClose={close} />
+      <Badge leftSection={<skill.icon />} sx={{ cursor: 'pointer' }} onClick={open}>
         {skill.name}
       </Badge>
     </>

@@ -27,7 +27,7 @@ const ProjectHeading = () => {
         <Stack align="center">
           <Title dir="ltr" order={1} className={classes.title}>
             <Text className={classes.firstLetter}>{fL}</Text>
-            {rL}
+            <Text className={classes.restL}>{rL}</Text>
           </Title>
           <Text size="lg" align="center" mt="-1em" color="dimmed" className={classes.desc}>
             {project?.description}

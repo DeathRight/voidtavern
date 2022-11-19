@@ -1,6 +1,7 @@
 import { Card, CardProps, Divider, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core';
-import { useId, useMemo, useState } from 'react';
+import { useId, useMemo } from 'react';
 import { useTranslation } from 'next-i18next';
+import { useDisclosure } from '@mantine/hooks';
 import dayjs from 'dayjs';
 import DynamicProgress from '../../DynamicProgress';
 import {
@@ -30,7 +31,7 @@ const SkillCard = (props: SkillCardProps) => {
   const uId = useId();
   const { t } = useTranslation('common');
 
-  const [open, setOpen] = useState(false);
+  const [opened, { close, open }] = useDisclosure(false);
 
   /* ------------------------------- Components ------------------------------- */
   const SCard = useMemo(() => {
@@ -106,7 +107,7 @@ const SkillCard = (props: SkillCardProps) => {
               }}
               p="md"
               withBorder
-              onClick={() => (withModal ? setOpen(true) : undefined)}
+              onClick={withModal ? open : undefined}
             >
               {Header}
             </Card.Section>
@@ -122,12 +123,7 @@ const SkillCard = (props: SkillCardProps) => {
   return (
     <>
       {withModal && (
-        <SkillModal
-          //key={`${uId}-SkillModal`}
-          skill={skill}
-          opened={open}
-          onClose={() => setOpen(false)}
-        />
+        <SkillModal key={`${uId}-SkillModal`} skill={skill} opened={opened} onClose={close} />
       )}
       {SCard}
     </>

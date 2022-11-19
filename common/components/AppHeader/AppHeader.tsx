@@ -1,6 +1,13 @@
 import { ActionIcon, Box, ColorScheme, Group, Header, Tooltip } from '@mantine/core';
-import { IconMoon, IconSun, IconTextDirectionLtr, IconTextDirectionRtl } from '@tabler/icons';
+import {
+  IconHome,
+  IconMoon,
+  IconSun,
+  IconTextDirectionLtr,
+  IconTextDirectionRtl,
+} from '@tabler/icons';
 import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 import { FC } from 'react';
 import useStyles from './AppHeader.styles';
 
@@ -19,6 +26,19 @@ const AppHeader: FC<props> = ({ themeValue, onToggleTheme, rtlValue, onRtlToggle
   return (
     <Header height={48} p="xs" className={classes.header}>
       <Box className={classes.box}>
+        <Group spacing="xs" position="left" align="center">
+          <Link href="/" passHref>
+            <ActionIcon
+              className={classes.btn}
+              component="a"
+              key="homeBtn"
+              aria-label="Home Button"
+            >
+              {' '}
+              <IconHome />{' '}
+            </ActionIcon>
+          </Link>
+        </Group>
         <Group spacing="xs" position="right" align="center">
           <Tooltip
             className={classes.btn}
