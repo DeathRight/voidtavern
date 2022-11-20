@@ -1,4 +1,4 @@
-import { Grid, Group, Space, Stack, Text, Title } from '@mantine/core';
+import { Box, Group, Space, Stack, Text, Title } from '@mantine/core';
 import { useContext, useId, useMemo } from 'react';
 import { SiGithub } from 'react-icons/si';
 import SkillBadge from '../../../common/components/Skill/SkillBadge';
@@ -34,7 +34,14 @@ const ProjectHeading = () => {
           </Text>
         </Stack>
         <Space />
-        <Text size="sm" component="a" href={project?.link} color="dimmed" variant="link">
+        <Text
+          size="sm"
+          component="a"
+          href={project?.link}
+          target="_blank"
+          color="dimmed"
+          variant="link"
+        >
           <Text>
             <Group spacing="xs">
               <SiGithub />
@@ -42,7 +49,17 @@ const ProjectHeading = () => {
             </Group>
           </Text>
         </Text>
-        <Grid id="skillBadges">{skillBadges}</Grid>
+        <Box
+          id="skillBadges"
+          sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            gap: theme.spacing.sm,
+          })}
+        >
+          {skillBadges}
+        </Box>
         <Space />
       </Stack>
     </div>
