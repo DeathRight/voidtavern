@@ -11,9 +11,10 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { IconX } from '@tabler/icons';
+import { IconArrowBack } from '@tabler/icons';
 import Link from 'next/link';
-import { useId, useMemo } from 'react';
+import React, { useEffect, useId, useMemo } from 'react';
+import { useHistory } from '../../../hooks/useHistory';
 import Projects from '../../../utils/Projects';
 import Skills from '../../../utils/Skills';
 import { isTool, Skill } from '../../../utils/Skills/types';
@@ -24,10 +25,16 @@ import { SkillHeader, SkillLevelBar, SkillLevelText, SkillYearsText } from '../S
 
 interface SkillModalProps extends Omit<ModalProps, 'children' | 'withCloseButton'> {
   skill: Skill;
+  isChild?: boolean;
 }
 
-const SkillModal = (props: SkillModalProps) => {
-  const { skill, centered = true, onClose, ...spread } = props;
+interface SkillModalBodyProps extends Pick<SkillModalProps, 'skill' | 'isChild'> {
+  onBadgeOpen?: (modal: React.ReactNode) => void;
+  onBadgeClose?: () => void;
+}
+
+export const SkillModalBody = (props: SkillModalBodyProps) => {
+  const { skill, isChild, onBadgeOpen, onBadgeClose } = props;
   const uId = useId();
 
   const projectsList = useMemo(() => {
@@ -49,21 +56,42 @@ const SkillModal = (props: SkillModalProps) => {
       // Collect all parent skills of this tool
       const pSkills = Skills.filter((s) => skill.parentIds.findIndex((pId) => pId === s.id) !== -1);
       return pSkills.length
-        ? pSkills.map((s) => <SkillBadge key={`${uId}-pBadge-${s.id}`} skill={s} />)
+        ? pSkills.map((s) => (
+            <SkillBadge
+              key={`${uId}-pBadge-${s.id}`}
+              skill={s}
+              isChildOfModal
+              onOpen={onBadgeOpen}
+              onClose={onBadgeClose}
+            />
+          ))
         : undefined;
     }
     return undefined;
-  }, []);
+  }, [skill, isChild, onBadgeOpen, onBadgeClose]);
 
   return (
-    <Modal centered={centered} withCloseButton={false} onClose={onClose} {...spread}>
-      <Group align="apart" mb="sm">
+    <>
+      <Group align="flex-start" mb="sm">
+        {isChild && (
+          <ActionIcon size="xl" onClick={onBadgeClose}>
+            <IconArrowBack />
+          </ActionIcon>
+        )}
         <Box sx={(th) => ({ userSelect: 'none', color: th.colors.info })}>
           <SkillHeader skill={skill} order={2} />
         </Box>
-        <ActionIcon size="xl" sx={{ ':hover': { color: 'red' } }} onClick={onClose} ml="auto">
+        {/*<ActionIcon
+          size="xl"
+          sx={{ ':hover': { color: 'red' } }}
+          onClick={() => {
+            console.log('Close button clicked! Is child:', isChild);
+            onClose?.();
+          }}
+          ml="auto"
+        >
           <IconX />
-        </ActionIcon>
+        </ActionIcon>*/}
       </Group>
       <Space h="xs" />
       <Group align="flex-start" spacing={0}>
@@ -104,6 +132,64 @@ const SkillModal = (props: SkillModalProps) => {
           <Stack mt="md">{projectsList}</Stack>
         </Box>
       </ScrollArea.Autosize>
+    </>
+  );
+};
+
+const SkillModal = (props: SkillModalProps) => {
+  const { skill, isChild, centered = true, onClose, ...spread } = props;
+  const uId = useId();
+
+  const history = useHistory({
+    onAdded: (i) => {
+      history.next();
+      console.log('Added! Index:', i);
+    },
+    onRemoved: (i) => {
+      history.prev();
+      console.log('Removed! Index:', i);
+    },
+  });
+
+  const SModal = useMemo(
+    () => (
+      <SkillModalBody
+        key={`${uId}-ModalBody-${skill.id}`}
+        skill={skill}
+        isChild={isChild}
+        onBadgeOpen={(m) => {
+          history.add(m);
+        }}
+        onBadgeClose={() => {
+          history.remove();
+        }}
+      />
+    ),
+    [skill, isChild, history, onClose]
+  );
+
+  useEffect(() => {
+    if (!history.list.length && !isChild) history.add(SModal);
+  }, []);
+
+  useEffect(() => {
+    console.log('Active:', history.active);
+  }, [history]);
+
+  return isChild ? (
+    <>{SModal}</>
+  ) : (
+    <Modal
+      key={`${uId}-ModalRoot`}
+      centered={centered}
+      withCloseButton={false}
+      onClose={() => {
+        onClose();
+        history.clear();
+      }}
+      {...spread}
+    >
+      {history.list[history.active]}
     </Modal>
   );
 };
