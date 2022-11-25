@@ -144,7 +144,6 @@ const SkillHistoryModal = (props: SkillModalProps) => {
         onClose();
         history.clear();
       }}
-      styles={{ modal: { transitionProperty: 'flex', transitionDuration: '0.5s' } }}
       {...spread}
     >
       <History.Header onClose={onClose} />

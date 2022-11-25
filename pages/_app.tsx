@@ -10,9 +10,11 @@ import NextNProgress from 'nextjs-progressbar';
 import { rtlCache } from '../common/utils/rtl-cache';
 import AppHeader from '../common/components/AppHeader/AppHeader';
 import theme from '../modules/MantineTheme/MantineThemeOverride';
+import '../common/styles/transitions.css';
 
 function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
+  const AnyComp = Component as any;
   const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme);
   const [rtl, setRtl] = useState(false);
 
@@ -50,7 +52,7 @@ function App(props: AppProps & { colorScheme: ColorScheme }) {
                 }
                 styles={() => ({ main: { padding: '0', margin: '0', width: '100%' } })}
               >
-                <Component {...pageProps} />
+                <AnyComp {...pageProps} />
               </AppShell>
             </NotificationsProvider>
           </MantineProvider>

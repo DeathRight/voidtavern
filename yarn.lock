@@ -2989,10 +2989,40 @@
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
   integrity sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==
 
+"@types/react-addons-css-transition-group@*":
+  version "15.0.7"
+  resolved "https://registry.yarnpkg.com/@types/react-addons-css-transition-group/-/react-addons-css-transition-group-15.0.7.tgz#9e717ef8e6f0124f8cfab9842a744572cd40da0c"
+  integrity sha512-0TmKgemUTDThscS3apUNyvPvubBW2LC3PztTktXpcPxonxjpzQgS29xcTx/HC3cZYCno4C/pIb1A9Lct9vw7gA==
+  dependencies:
+    "@types/react" "^15"
+    "@types/react-addons-transition-group" "*"
+
+"@types/react-addons-transition-group@*":
+  version "15.0.7"
+  resolved "https://registry.yarnpkg.com/@types/react-addons-transition-group/-/react-addons-transition-group-15.0.7.tgz#10c5c2cc1918b40f13e09a1403fc07c4dc31ab10"
+  integrity sha512-Hep6Cwn46A3fGlUoM5PBr6ceynmhsV9xslMns6PQGt3c6mqYaAFvRxueCTjadcRSc0+ulz6QB2toUieVZ1thsg==
+  dependencies:
+    "@types/react" "^15"
+
+"@types/react-css-transition-replace@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@types/react-css-transition-replace/-/react-css-transition-replace-2.1.4.tgz#baf3e3b4619107f90549f1d6d4d76e9f31fddfbf"
+  integrity sha512-IJvxFMJ3HNg+qPLnCIihWlEHovJxNcvfE7l+YMV64txJ+k0JPLpyT4o6uIYepYliFAOoyWyPGlLdRgkGUQzyew==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-addons-css-transition-group" "*"
+
 "@types/react-dom@*":
   version "17.0.14"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.14.tgz#c8f917156b652ddf807711f5becbd2ab018dea9f"
   integrity sha512-H03xwEP1oXmSfl3iobtmQ/2dHF5aBHr8aUMwyGZya6OW45G+xtdzmq6HkncefiBt5JU8DVyaWl/nWZbjZCnzAQ==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-dom@^18.0.9":
+  version "18.0.9"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.9.tgz#ffee5e4bfc2a2f8774b15496474f8e7fe8d0b504"
+  integrity sha512-qnVvHxASt/H7i+XG1U1xMiY5t+IHcPGUK7TDMDzom08xa7e86eCeKOiLZezwCKVxJn6NEiiy2ekgX8aQssjIKg==
   dependencies:
     "@types/react" "*"
 
@@ -3020,6 +3050,11 @@
     "@types/prop-types" "*"
     "@types/scheduler" "*"
     csstype "^3.0.2"
+
+"@types/react@^15":
+  version "15.7.11"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.7.11.tgz#9f0ee1308cdcef3afb501f79e99db4269549b8e3"
+  integrity sha512-MuwL+2Ki9eWtpsFdGYxMFmUvtXMFt4NgMMKllTF2wdADsKSZEA7LCwIyiQ35KIUb5WgW/ReXHWF/FZ7gn/pNfw==
 
 "@types/scheduler@*":
   version "0.16.2"
@@ -5404,7 +5439,7 @@ dom-converter@^0.2.0:
   dependencies:
     utila "~0.4"
 
-dom-helpers@^5.0.1:
+dom-helpers@^5.0.1, dom-helpers@^5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.2.1.tgz#d9400536b2bf8225ad98fe052e029451ac40e902"
   integrity sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==
@@ -10175,6 +10210,14 @@ raw-loader@^4.0.2:
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
+
+react-css-transition-replace@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/react-css-transition-replace/-/react-css-transition-replace-4.0.5.tgz#1f139daf5ec28ae8d34f840e50f24c30e32c227e"
+  integrity sha512-nRBSliVk2exhJxGb+DMTekE59rH1XMbQgbE+U/RLLowO2VBYoU+edo1h9mlRdjKruVItPHBysXiw+uCIOD+UaQ==
+  dependencies:
+    dom-helpers "^5.2.0"
+    prop-types "^15.7.2"
 
 react-docgen-typescript@^2.1.1:
   version "2.2.2"
