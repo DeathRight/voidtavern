@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider, AppShell } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { appWithTranslation } from 'next-i18next';
+import NextNProgress from 'nextjs-progressbar';
 import { rtlCache } from '../common/utils/rtl-cache';
 import AppHeader from '../common/components/AppHeader/AppHeader';
 import theme from '../modules/MantineTheme/MantineThemeOverride';
@@ -28,7 +29,7 @@ function App(props: AppProps & { colorScheme: ColorScheme }) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
-
+      <NextNProgress />
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <div dir={rtl ? 'rtl' : 'ltr'}>
           <MantineProvider

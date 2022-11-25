@@ -1,42 +1,32 @@
 import { Badge } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import React, { useEffect, useMemo } from 'react';
+import { HistoryItem } from '../../../hooks/useHistory';
 import { Skill } from '../../../utils/Skills/types';
 // eslint-disable-next-line import/no-cycle
-import SkillModal, { SkillModalBody } from '../SkillModal';
+import SkillModal, { SkillModalBody, SkillModalHeader } from '../SkillModal';
 
 interface SkillBadgeProps {
   skill: Skill;
-  onOpen?: (modal: React.ReactNode) => void;
-  onClose?: () => void;
+  onOpen?: (historyItem: HistoryItem) => void;
   isChildOfModal?: boolean;
 }
 
 const SkillBadge = (props: SkillBadgeProps) => {
-  const { skill, onOpen, onClose, isChildOfModal = false } = props;
+  const { skill, onOpen, isChildOfModal = false } = props;
   const [opened, { close, open }] = useDisclosure(false);
 
   const SModal = useMemo(
-    () =>
-      isChildOfModal ? (
-        <SkillModalBody
-          skill={skill}
-          onBadgeOpen={onOpen}
-          onBadgeClose={onClose}
-          isChild={isChildOfModal}
-        />
-      ) : (
-        <SkillModal skill={skill} opened={opened} onClose={close} />
-      ),
+    () => !isChildOfModal && <SkillModal skill={skill} opened={opened} onClose={close} />,
     [skill, opened, close, isChildOfModal]
   );
 
   useEffect(() => {
     if (opened) {
-      onOpen?.(SModal);
-      console.log('Opened');
-    } else {
-      console.log('Closed!');
+      onOpen?.({
+        header: <SkillModalHeader skill={skill} />,
+        body: <SkillModalBody skill={skill} isChild={isChildOfModal} />,
+      });
     }
   }, [opened]);
 

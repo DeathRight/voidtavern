@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+export type HistoryItem = { header: React.ReactNode; body: React.ReactNode };
 export interface UseHistorySettings {
-  historyItems?: React.ReactNode[];
+  historyItems?: HistoryItem[];
   /**
    * Default: 4
    *
@@ -40,7 +41,7 @@ interface UseHistoryActions {
    * Adds `item` to end of history, and shifts indexes 2 through (`max`-1) if `max` is reached
    * (see `useHistory` hook's documentation)
    */
-  add: (item: React.ReactNode) => void;
+  add: (item: HistoryItem) => void;
   /**
    * Removes the last item from history
    */
@@ -48,12 +49,12 @@ interface UseHistoryActions {
   clear: () => void;
 }
 
-interface UseHistoryReturn extends UseHistoryActions {
+export interface UseHistoryReturn extends UseHistoryActions {
   /**
    * Index of currently active history item
    */
   active: number;
-  list: React.ReactNode[];
+  list: HistoryItem[];
 }
 
 const shave = (v: any[], max: number) => {
@@ -70,13 +71,13 @@ const shave = (v: any[], max: number) => {
 };
 
 function useHistoryHistory({ max = 4, historyItems = [], onAdded, onRemoved }: UseHistorySettings) {
-  const [list, setList] = useState<React.ReactNode[]>(shave(historyItems, max));
-  const [_list, _setList] = useState<React.ReactNode[]>(shave(historyItems, max));
+  const [list, setList] = useState<HistoryItem[]>(shave(historyItems, max));
+  const [_list, _setList] = useState<HistoryItem[]>(shave(historyItems, max));
   const [active, setActive] = useState(0);
 
   /* ------------------------------ Modification ------------------------------ */
   const add = useCallback(
-    (item: React.ReactNode) =>
+    (item: HistoryItem) =>
       setList((v) => {
         if (v.length >= max) {
           const count = v.length - max + 1;
@@ -97,7 +98,7 @@ function useHistoryHistory({ max = 4, historyItems = [], onAdded, onRemoved }: U
   const remove = useCallback(() => {
     setList((v) => {
       const l = v.slice(0, -1);
-      if (active > l.length - 1) setActive(l.length - 1);
+      //if (active > l.length - 1) setActive(l.length - 1);
       return l;
     });
   }, []);
@@ -129,8 +130,14 @@ function useHistoryHistory({ max = 4, historyItems = [], onAdded, onRemoved }: U
   );
   /* ------------------------------------ * ----------------------------------- */
   useEffect(() => {
-    if (list.length >= _list.length) onAdded?.(list.length - 1);
-    else if (list.length < _list.length) onRemoved?.(list.length - 1);
+    if (list.length >= _list.length) {
+      onAdded?.(list.length - 1);
+      // Automatically set added item as active
+      next();
+    } else if (list.length < _list.length) {
+      onRemoved?.(list.length - 1);
+      prev();
+    }
     _setList(list.slice());
   }, [list]);
 

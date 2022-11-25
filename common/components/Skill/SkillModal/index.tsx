@@ -1,5 +1,4 @@
 import {
-  ActionIcon,
   Box,
   Divider,
   Group,
@@ -11,10 +10,10 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { IconArrowBack } from '@tabler/icons';
 import Link from 'next/link';
 import React, { useEffect, useId, useMemo } from 'react';
-import { useHistory } from '../../../hooks/useHistory';
+import History from '../../../../modules/History';
+import { useHistoryContext } from '../../../../modules/History/Context';
 import Projects from '../../../utils/Projects';
 import Skills from '../../../utils/Skills';
 import { isTool, Skill } from '../../../utils/Skills/types';
@@ -28,14 +27,18 @@ interface SkillModalProps extends Omit<ModalProps, 'children' | 'withCloseButton
   isChild?: boolean;
 }
 
-interface SkillModalBodyProps extends Pick<SkillModalProps, 'skill' | 'isChild'> {
-  onBadgeOpen?: (modal: React.ReactNode) => void;
-  onBadgeClose?: () => void;
-}
+interface SkillModalBodyProps extends Pick<SkillModalProps, 'skill' | 'isChild'> {}
+
+export const SkillModalHeader = ({ skill }: { skill: Skill }) => {
+  const uId = useId();
+  return <SkillHeader key={`${uId}-SkillHeader`} skill={skill} order={2} />;
+};
 
 export const SkillModalBody = (props: SkillModalBodyProps) => {
-  const { skill, isChild, onBadgeOpen, onBadgeClose } = props;
+  const { skill, isChild } = props;
   const uId = useId();
+
+  const history = useHistoryContext();
 
   const projectsList = useMemo(() => {
     // Collect all projects that contain this skill
@@ -61,38 +64,17 @@ export const SkillModalBody = (props: SkillModalBodyProps) => {
               key={`${uId}-pBadge-${s.id}`}
               skill={s}
               isChildOfModal
-              onOpen={onBadgeOpen}
-              onClose={onBadgeClose}
+              onOpen={(item) => history.add(item)}
             />
           ))
         : undefined;
     }
     return undefined;
-  }, [skill, isChild, onBadgeOpen, onBadgeClose]);
+  }, [skill, isChild]);
 
+  // <Space /> because this is coming just after the Header
   return (
-    <>
-      <Group align="flex-start" mb="sm">
-        {isChild && (
-          <ActionIcon size="xl" onClick={onBadgeClose}>
-            <IconArrowBack />
-          </ActionIcon>
-        )}
-        <Box sx={(th) => ({ userSelect: 'none', color: th.colors.info })}>
-          <SkillHeader skill={skill} order={2} />
-        </Box>
-        {/*<ActionIcon
-          size="xl"
-          sx={{ ':hover': { color: 'red' } }}
-          onClick={() => {
-            console.log('Close button clicked! Is child:', isChild);
-            onClose?.();
-          }}
-          ml="auto"
-        >
-          <IconX />
-        </ActionIcon>*/}
-      </Group>
+    <div key={`${uId}-SkillModalBody`}>
       <Space h="xs" />
       <Group align="flex-start" spacing={0}>
         <SkillYearsText skill={skill} />
@@ -132,53 +114,28 @@ export const SkillModalBody = (props: SkillModalBodyProps) => {
           <Stack mt="md">{projectsList}</Stack>
         </Box>
       </ScrollArea.Autosize>
-    </>
+    </div>
   );
 };
 
-const SkillModal = (props: SkillModalProps) => {
+const SkillHistoryModal = (props: SkillModalProps) => {
   const { skill, isChild, centered = true, onClose, ...spread } = props;
   const uId = useId();
 
-  const history = useHistory({
-    onAdded: (i) => {
-      history.next();
-      console.log('Added! Index:', i);
-    },
-    onRemoved: (i) => {
-      history.prev();
-      console.log('Removed! Index:', i);
-    },
-  });
-
-  const SModal = useMemo(
-    () => (
-      <SkillModalBody
-        key={`${uId}-ModalBody-${skill.id}`}
-        skill={skill}
-        isChild={isChild}
-        onBadgeOpen={(m) => {
-          history.add(m);
-        }}
-        onBadgeClose={() => {
-          history.remove();
-        }}
-      />
-    ),
-    [skill, isChild, history, onClose]
-  );
+  const history = useHistoryContext();
 
   useEffect(() => {
-    if (!history.list.length && !isChild) history.add(SModal);
+    if (!history.list.length && !isChild) {
+      history.add({
+        header: <SkillModalHeader key={`${uId}-ModalHeader-${skill.id}`} skill={skill} />,
+        body: (
+          <SkillModalBody key={`${uId}-ModalBody-${skill.id}`} skill={skill} isChild={isChild} />
+        ),
+      });
+    }
   }, []);
 
-  useEffect(() => {
-    console.log('Active:', history.active);
-  }, [history]);
-
-  return isChild ? (
-    <>{SModal}</>
-  ) : (
+  return !isChild ? (
     <Modal
       key={`${uId}-ModalRoot`}
       centered={centered}
@@ -187,10 +144,26 @@ const SkillModal = (props: SkillModalProps) => {
         onClose();
         history.clear();
       }}
+      styles={{ modal: { transitionProperty: 'flex', transitionDuration: '0.5s' } }}
       {...spread}
     >
-      {history.list[history.active]}
+      <History.Header onClose={onClose} />
+      <History.Body />
     </Modal>
+  ) : (
+    <></>
+  );
+};
+
+const SkillModal = (props: SkillModalProps) => {
+  const uId = useId();
+
+  return props.isChild ? (
+    <></>
+  ) : (
+    <History>
+      <SkillHistoryModal key={`${uId}-SkillHistoryItemRoot`} {...props} />
+    </History>
   );
 };
 
