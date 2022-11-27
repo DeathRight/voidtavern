@@ -15,9 +15,17 @@ const HistoryHeader = (props: HistoryHeaderProps) => {
 
   const BackBtn = useMemo(() => {
     let cN = classes.backBtn;
-    if (history.active < 1) cN += ` ${classes.collapsed}`;
+    const isZeroth = history.active < 1;
+    if (isZeroth) cN += ` ${classes.collapsed}`;
     return (
-      <ActionIcon size="xl" className={cN} onClick={() => history.remove()}>
+      <ActionIcon
+        tabIndex={isZeroth ? -1 : undefined}
+        size="xl"
+        className={cN}
+        aria-label={!isZeroth ? 'Previous' : undefined}
+        aria-hidden={isZeroth}
+        onClick={() => history.remove()}
+      >
         <IconArrowBack />
       </ActionIcon>
     );
@@ -37,6 +45,7 @@ const HistoryHeader = (props: HistoryHeaderProps) => {
       <ActionIcon
         size="xl"
         className={classes.closeBtn}
+        aria-label="Close Modal"
         onClick={() => {
           onClose?.();
           history.clear();

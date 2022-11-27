@@ -1,6 +1,12 @@
 import { createStyles } from '@mantine/core';
 
 const useStyle = createStyles((theme) => ({
+  textStack: {
+    [theme.fn.smallerThan(700)]: {
+      marginLeft: '64px',
+      marginRight: '64px',
+    },
+  },
   title: {
     color: theme.colorScheme === 'dark' ? theme.colors.gray['6'] : theme.black,
     //fontSize: 100,
@@ -11,7 +17,7 @@ const useStyle = createStyles((theme) => ({
     flexDirection: 'row',
     marginBottom: '-0.5em',
 
-    [theme.fn.smallerThan('sm')]: {
+    [theme.fn.smallerThan(800)]: {
       fontSize: theme.headings.sizes.h2.fontSize,
     },
   },
@@ -27,7 +33,7 @@ const useStyle = createStyles((theme) => ({
   },
   desc: {
     //color: theme.colorScheme === 'dark' ? theme.colors.gray['7'] : theme.colors.gray['5'],
-    [theme.fn.smallerThan('sm')]: {
+    [theme.fn.smallerThan(800)]: {
       fontSize: theme.fontSizes.md,
     },
   },

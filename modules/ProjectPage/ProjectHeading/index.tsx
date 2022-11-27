@@ -24,7 +24,7 @@ const ProjectHeading = () => {
   return (
     <div key={uId}>
       <Stack align="center" px="xs" pb="xs">
-        <Stack align="center">
+        <Stack className={classes.textStack} align="center">
           <Title dir="ltr" order={1} className={classes.title}>
             <Text className={classes.firstLetter}>{fL}</Text>
             <Text className={classes.restL}>{rL}</Text>

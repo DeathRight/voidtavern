@@ -51,6 +51,7 @@ export const StickyTabber = (props: StickyTabberProps) => {
           id={uId + id}
           value={id}
           icon={icon}
+          aria-label={t(`sections.${id}`)}
         >
           {t(`sections.${id}`) as React.ReactNode}
         </Tabs.Tab>
@@ -73,11 +74,14 @@ export const StickyTabber = (props: StickyTabberProps) => {
       <Box className={classes.main} {...boxProps}>
         <Tabs
           className={classes.btn}
+          classNames={{ tabLabel: classes.tabLabel, tabIcon: classes.tabIcon }}
           value={value}
           {...tabProps}
           onTabChange={(id) => router.push(`/#${id}`)}
         >
-          <Tabs.List position="center">{tabList}</Tabs.List>
+          <Tabs.List position="center" aria-label="Table of Contents">
+            {tabList}
+          </Tabs.List>
         </Tabs>
       </Box>
     </ScrollArea>

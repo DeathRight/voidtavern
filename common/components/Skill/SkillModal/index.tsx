@@ -127,9 +127,10 @@ const SkillHistoryModal = (props: SkillModalProps) => {
   useEffect(() => {
     if (!history.list.length && !isChild) {
       history.add({
-        header: <SkillModalHeader key={`${uId}-ModalHeader-${skill.id}`} skill={skill} />,
+        key: `${uId}-Modal-${skill.id}-Item`,
+        header: <SkillModalHeader key={`${uId}-Modal-${skill.id}-Header`} skill={skill} />,
         body: (
-          <SkillModalBody key={`${uId}-ModalBody-${skill.id}`} skill={skill} isChild={isChild} />
+          <SkillModalBody key={`${uId}-Modal-${skill.id}-Body`} skill={skill} isChild={isChild} />
         ),
       });
     }

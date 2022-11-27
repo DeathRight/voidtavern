@@ -1,28 +1,34 @@
-import { GetServerSidePropsContext } from 'next';
 import { useState } from 'react';
 import { AppProps } from 'next/app';
-import { getCookie, setCookie } from 'cookies-next';
 import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider, AppShell } from '@mantine/core';
+import { useColorScheme, useLocalStorage } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
 import { appWithTranslation } from 'next-i18next';
-import NextNProgress from 'nextjs-progressbar';
-import { rtlCache } from '../common/utils/rtl-cache';
 import AppHeader from '../common/components/AppHeader/AppHeader';
 import theme from '../modules/MantineTheme/MantineThemeOverride';
 import '../common/styles/transitions.css';
+import { ltrCache } from '../common/utils/ltr-cache';
+import { rtlCache } from '../common/utils/rtl-cache';
+import { RouterTransition } from '../common/components/RouterTransition';
 
-function App(props: AppProps & { colorScheme: ColorScheme }) {
+function App(props: AppProps) {
   const { Component, pageProps } = props;
+
+  // ? Some strange typing error in NextJS where
+  // ? `Component` becomes unusable, so we force`any`
   const AnyComp = Component as any;
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme);
+
   const [rtl, setRtl] = useState(false);
 
-  const toggleColorScheme = (value?: ColorScheme) => {
-    const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark');
-    setColorScheme(nextColorScheme);
-    setCookie('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
-  };
+  const prefColorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme',
+    defaultValue: prefColorScheme,
+    getInitialValueInEffect: true,
+  });
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   return (
     <>
@@ -31,15 +37,15 @@ function App(props: AppProps & { colorScheme: ColorScheme }) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
-      <NextNProgress />
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <div dir={rtl ? 'rtl' : 'ltr'}>
           <MantineProvider
             theme={{ ...theme, colorScheme, dir: rtl ? 'rtl' : 'ltr' }}
-            emotionCache={rtl ? rtlCache : undefined}
+            emotionCache={rtl ? rtlCache : ltrCache}
             withGlobalStyles
             withNormalizeCSS
           >
+            <RouterTransition />
             <NotificationsProvider>
               <AppShell
                 header={
@@ -62,8 +68,8 @@ function App(props: AppProps & { colorScheme: ColorScheme }) {
   );
 }
 
-App.getInitialProps = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
+/*App.getInitialProps = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
   colorScheme: getCookie('mantine-color-scheme', ctx) || 'light',
-});
+});*/
 
 export default appWithTranslation(App);

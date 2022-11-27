@@ -1,6 +1,6 @@
 import { createStyles } from '@mantine/core';
 
-const useStyle = createStyles(() => ({
+const useStyle = createStyles((theme) => ({
   main: {
     height: 50,
     display: 'flex',
@@ -17,6 +17,17 @@ const useStyle = createStyles(() => ({
     display: 'flex',
     overflow: 'auto',
     justifySelf: 'center',
+  },
+  tabLabel: {
+    [theme.fn.smallerThan('xs')]: {
+      display: 'none',
+    },
+  },
+  tabIcon: {
+    [theme.fn.smallerThan('xs')]: {
+      // By default has margin-right 7px
+      margin: '0 !important',
+    },
   },
 }));
 

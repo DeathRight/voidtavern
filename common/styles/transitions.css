@@ -82,7 +82,7 @@
 .roll-up-leave.roll-up-leave-active {
   transform: translate(-100%, 0);
   opacity: 0;
-  transition: opacity 0.5s 0.1s ease-in-out, transform 0.5s 0.1s ease-in-out;
+  transition: opacity 250ms 0.1s ease-in-out, transform 250ms 0.1s ease-in-out;
 }
 
 .roll-up-enter {
@@ -92,11 +92,11 @@
 .roll-up-enter.roll-up-enter-active {
   transform: translate(0, 0);
   opacity: 1;
-  transition: opacity 0.5s 0.1s ease-in-out, transform 0.5s 0.1s ease-in-out;
+  transition: opacity 250ms 0.1s ease-in-out, transform 250ms 0.1s ease-in-out;
 }
 
 .roll-up-height {
-  transition: height 0.5s 0.1s ease-in-out;
+  transition: height 250ms 0.1s ease-in-out;
 }
 
 /* Fade with width transition */

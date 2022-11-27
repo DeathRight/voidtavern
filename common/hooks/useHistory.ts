@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-export type HistoryItem = { header: React.ReactNode; body: React.ReactNode };
+export type HistoryItem = { header: React.ReactNode; body: React.ReactNode; key: string };
+
 export interface UseHistorySettings {
   historyItems?: HistoryItem[];
   /**
