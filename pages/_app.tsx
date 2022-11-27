@@ -14,6 +14,7 @@ import { useColorScheme, useLocalStorage } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
 import { appWithTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import AppHeader from '../common/components/AppHeader/AppHeader';
 import theme from '../modules/MantineTheme/MantineThemeOverride';
 import '../common/styles/transitions.css';
@@ -48,14 +49,15 @@ function App(props: AppProps) {
   const navItems = useMemo(
     () =>
       Projects.map((p) => (
-        <NavLink
-          component="a"
-          href={`/project/${p.id}`}
-          key={p.name}
-          active={p.id === active}
-          label={p.name}
-          onClick={() => setActive(p.id)}
-        />
+        <Link href={`/project/${p.id}`} passHref>
+          <NavLink
+            component="a"
+            key={p.name}
+            active={p.id === active}
+            label={p.name}
+            onClick={() => setActive(p.id)}
+          />
+        </Link>
       )),
     [active]
   );
@@ -98,14 +100,15 @@ function App(props: AppProps) {
                     sx={(th) => ({ [th.fn.largerThan('sm')]: { top: '0' } })}
                   >
                     <ScrollArea>
-                      <NavLink
-                        component="a"
-                        href="/"
-                        key="home"
-                        active={active === 'home'}
-                        label="Home"
-                        onClick={() => setActive('home')}
-                      />
+                      <Link href="/" passHref>
+                        <NavLink
+                          component="a"
+                          key="home"
+                          active={active === 'home'}
+                          label="Home"
+                          onClick={() => setActive('home')}
+                        />
+                      </Link>
                       {navItems}
                     </ScrollArea>
                   </Navbar>
