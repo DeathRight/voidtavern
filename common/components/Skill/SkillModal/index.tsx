@@ -10,6 +10,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import React, { useEffect, useId, useMemo } from 'react';
 import History from '../../../../modules/History';
@@ -38,11 +39,18 @@ export const SkillModalBody = (props: SkillModalBodyProps) => {
   const { skill, isChild } = props;
   const uId = useId();
 
+  const { t } = useTranslation('common');
+
   const history = useHistoryContext();
 
   const projectsList = useMemo(() => {
     // Collect all projects that contain this skill
-    const pros = Projects.filter((p) => p.skills.findIndex((s) => s.id === skill.id) !== -1);
+    const pros = Projects.filter(
+      (p) =>
+        p.skills.findIndex(
+          (s) => s.id === skill.id || (isTool(s) && s.parentIds.includes(skill.id))
+        ) !== -1
+    );
     return pros.length
       ? pros.map((p) => (
           <Link key={`${uId}-pLink-${p.id}`} href={`/project/${p.id}`} passHref>
@@ -51,7 +59,7 @@ export const SkillModalBody = (props: SkillModalBodyProps) => {
             </Text>
           </Link>
         ))
-      : 'No projects associated with this skill! :(';
+      : t('skills.noProjects');
   }, []);
 
   const parentsList = useMemo(() => {
@@ -92,7 +100,7 @@ export const SkillModalBody = (props: SkillModalBodyProps) => {
           {parentsList && (
             <>
               <Title order={3} ml="xl">
-                Parents
+                {t('skills.Parents')}
               </Title>
               <Box
                 sx={(theme) => ({
@@ -109,7 +117,7 @@ export const SkillModalBody = (props: SkillModalBodyProps) => {
             </>
           )}
           <Title order={3} ml="xl">
-            Projects
+            {t('skills.Projects')}
           </Title>
           <Stack mt="md">{projectsList}</Stack>
         </Box>

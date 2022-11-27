@@ -1,4 +1,13 @@
-import { ActionIcon, Box, ColorScheme, Group, Header, Tooltip } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Burger,
+  ColorScheme,
+  Group,
+  Header,
+  MediaQuery,
+  Tooltip,
+} from '@mantine/core';
 import {
   IconHome,
   IconMoon,
@@ -16,9 +25,18 @@ type props = {
   onToggleTheme: (theme: ColorScheme) => void;
   rtlValue: boolean;
   onRtlToggle: (rtl: boolean) => void;
+  opened: boolean;
+  onOpen: (open: boolean) => void;
 };
 
-const AppHeader: FC<props> = ({ themeValue, onToggleTheme, rtlValue, onRtlToggle }) => {
+const AppHeader: FC<props> = ({
+  themeValue,
+  onToggleTheme,
+  rtlValue,
+  onRtlToggle,
+  opened,
+  onOpen,
+}) => {
   const { classes } = useStyles();
   const { t } = useTranslation('common');
   const themeColor = themeValue === 'light' ? 'violet' : 'yellow';
@@ -27,13 +45,11 @@ const AppHeader: FC<props> = ({ themeValue, onToggleTheme, rtlValue, onRtlToggle
     <Header height={48} p="xs" className={classes.header}>
       <Box className={classes.box}>
         <Group spacing="xs" position="left" align="center">
+          <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+            <Burger className={classes.btn} opened={opened} onClick={() => onOpen(!opened)} />
+          </MediaQuery>
           <Link href="/" passHref>
-            <ActionIcon
-              className={classes.btn}
-              component="a"
-              key="homeBtn"
-              aria-label="Home Button"
-            >
+            <ActionIcon className={classes.btn} component="a" key="homeBtn" aria-label="Home">
               {' '}
               <IconHome />{' '}
             </ActionIcon>
@@ -47,7 +63,7 @@ const AppHeader: FC<props> = ({ themeValue, onToggleTheme, rtlValue, onRtlToggle
             <ActionIcon
               onClick={() => onRtlToggle(!rtlValue)}
               key="rtlToggleBtn"
-              aria-label="RTL Toggle Button"
+              aria-label="RTL Toggle"
             >
               {rtlValue ? <IconTextDirectionLtr /> : <IconTextDirectionRtl />}
             </ActionIcon>
@@ -62,7 +78,7 @@ const AppHeader: FC<props> = ({ themeValue, onToggleTheme, rtlValue, onRtlToggle
               color={themeColor}
               onClick={() => onToggleTheme(themeValue === 'light' ? 'dark' : 'light')}
               key="themeToggleBtn"
-              aria-label="Theme Toggle Button"
+              aria-label="Theme Toggle"
             >
               {themeValue === 'light' ? <IconMoon /> : <IconSun />}
             </ActionIcon>

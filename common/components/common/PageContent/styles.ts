@@ -10,7 +10,7 @@ const useStyle = createStyles((theme) => ({
     margin: 'auto',
     display: 'flex',
     justifyContent: 'center',
-    [theme.fn.smallerThan('sm')]: {
+    [theme.fn.smallerThan('lg')]: {
       width: '100%',
     },
   },

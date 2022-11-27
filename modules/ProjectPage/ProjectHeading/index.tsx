@@ -1,4 +1,5 @@
 import { Box, Group, Space, Stack, Text, Title } from '@mantine/core';
+import { useTranslation } from 'next-i18next';
 import { useContext, useId, useMemo } from 'react';
 import { SiGithub } from 'react-icons/si';
 import SkillBadge from '../../../common/components/Skill/SkillBadge';
@@ -9,6 +10,7 @@ const ProjectHeading = () => {
   const uId = useId();
   const project = useContext(ProjectContext);
   const { classes } = useStyle();
+  const { t } = useTranslation('projects');
 
   const skillBadges = useMemo(
     () => project?.skills.map((s) => <SkillBadge key={`skillBadge:${s.id}`} skill={s} />),
@@ -45,7 +47,7 @@ const ProjectHeading = () => {
           <Text>
             <Group spacing="xs">
               <SiGithub />
-              <Text color="dimmed">View on Github</Text>
+              <Text color="dimmed">{t('github')}</Text>
             </Group>
           </Text>
         </Text>

@@ -11,6 +11,9 @@
     "expYrs": "Years of Experience",
     "Beginner": "Beginner",
     "Intermediate": "Intermediate",
-    "Advanced": "Advanced"
+    "Advanced": "Advanced",
+    "Projects": "Projects",
+    "Parents": "Parents",
+    "noProjects": "No projects associated with this skill! :("
   }
 }

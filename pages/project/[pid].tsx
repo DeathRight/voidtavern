@@ -1,6 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import PageHeading from '../../common/components/common/PageHeading';
+import mapLocalesToPaths from '../../common/utils/locales';
 import Projects from '../../common/utils/Projects';
 import ProjectPage from '../../modules/ProjectPage';
 import ProjectHeading from '../../modules/ProjectPage/ProjectHeading';
@@ -23,7 +24,7 @@ export default ProjectRoutePage;
 
 export async function getStaticPaths() {
   return {
-    paths: Projects.map((p) => ({ params: { pid: p.id.toString() } })),
+    paths: Projects.flatMap((p) => mapLocalesToPaths({ pid: p.id.toString() })),
     fallback: false,
   };
 }
@@ -42,7 +43,7 @@ export const getStaticProps: GetStaticProps<{ pId: string; [key: string]: any }>
   return {
     props: {
       pId,
-      ...(await serverSideTranslations(locale as string, ['common', 'home'])),
+      ...(await serverSideTranslations(locale as string, ['common', 'projects'])),
     },
   };
 };

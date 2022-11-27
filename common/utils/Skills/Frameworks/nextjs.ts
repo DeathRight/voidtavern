@@ -10,7 +10,7 @@ const skill: Tool = {
   type: ToolType.Framework,
   parentIds: [React.id, NodeJS.id],
   level: SkillLevel.Intermediate,
-  start: new Date(2021, 0),
+  start: new Date(2020, 0),
 };
 
 export default skill;

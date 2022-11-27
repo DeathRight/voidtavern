@@ -87,27 +87,27 @@ export default function HomePage() {
           <About />
         </PageSection>
         <PageSection globalId={uId} t={t} id="lang">
-          <Grid grow id="langs">
+          <Grid ml="0px" grow id="langs">
             {langCards}
           </Grid>
         </PageSection>
         <PageSection globalId={uId} t={t} id="fw">
-          <Grid grow id="fws">
+          <Grid ml="0px" grow id="fws">
             {fwCards}
           </Grid>
         </PageSection>
         <PageSection globalId={uId} t={t} id="env">
-          <Grid grow id="envs">
+          <Grid ml="0px" grow id="envs">
             {envCards}
           </Grid>
         </PageSection>
         <PageSection globalId={uId} t={t} id="lib">
-          <Grid grow id="libs">
+          <Grid ml="0px" grow id="libs">
             {libCards}
           </Grid>
         </PageSection>
         <PageSection globalId={uId} t={t} id="db">
-          <Grid grow id="dbs">
+          <Grid ml="0px" grow id="dbs">
             {dbCards}
           </Grid>
         </PageSection>

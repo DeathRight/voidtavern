@@ -24,6 +24,7 @@ import {
 } from '../../../utils/Skills/types';
 // eslint-disable-next-line import/no-cycle
 import SkillModal from '../SkillModal';
+import useStyle from './styles';
 
 interface SkillProps {
   skill: Skill;
@@ -110,15 +111,10 @@ export const SkillLevelBar = (props: SkillProps) => {
 /* ----------------------------- End of Modules ----------------------------- */
 
 const SkillCard = (props: SkillCardProps) => {
-  const {
-    withModal = true,
-    skill,
-    style = { minWidth: '320px' },
-    p = 'xs',
-    mr = 'auto',
-    withBorder = true,
-  } = props;
+  const { withModal = true, skill, style, p = 'xs', mr = 'auto', withBorder = true } = props;
   const uId = useId();
+
+  const { classes } = useStyle();
 
   const [opened, { close, open }] = useDisclosure(false);
 
@@ -127,13 +123,11 @@ const SkillCard = (props: SkillCardProps) => {
     () => (
       <>
         <Stack key={uId} mr="auto" py="md">
-          <Card style={style} p={p} mr={mr} withBorder={withBorder}>
+          <Card className={classes.card} style={style} p={p} mr={mr} withBorder={withBorder}>
             <Card.Section
+              className={classes.section}
               style={{
-                color: 'unset',
-                textDecoration: 'unset',
                 cursor: withModal ? 'pointer' : 'unset',
-                userSelect: 'none',
               }}
               p="md"
               withBorder

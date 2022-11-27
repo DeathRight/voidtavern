@@ -11,7 +11,7 @@ import { Project } from '../types';
 
 const Body = () => {
   const uId = useId();
-  const { t } = useTranslation('home');
+  const { t } = useTranslation('projects');
 
   const tabs: SectionTabObj[] = [{ id: 'about', icon: <IconInfoCircle /> }];
 

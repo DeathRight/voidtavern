@@ -8,9 +8,13 @@ const PageHeader = (props: Omit<BoxProps, 'className'>) => {
 
   return (
     <Box className={classes.main} id="pageTop" {...spread}>
-      <HeaderSpacers />
-      {children}
-      <HeaderSpacers />
+      <div className={classes.container}>
+        <div className={classes.spacer} />
+        {children}
+        <div style={{ order: 2 }}>
+          <HeaderSpacers />
+        </div>
+      </div>
     </Box>
   );
 };

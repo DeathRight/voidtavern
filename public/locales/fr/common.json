@@ -11,6 +11,9 @@
     "expYrs": "Des Années D'expérience",
     "Beginner": "Débutant",
     "Intermediate": "Intermédiaire",
-    "Advanced": "Avancé"
+    "Advanced": "Avancé",
+    "Projects": "Projets",
+    "Parents": "Parents",
+    "noProjects": "Aucun projet associé à ce talent! :("
   }
 }

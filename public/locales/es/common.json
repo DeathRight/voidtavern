@@ -11,6 +11,9 @@
     "expYrs": "Años de Experiencia",
     "Beginner": "Principiante",
     "Intermediate": "Intermedio",
-    "Advanced": "Avanzado"
+    "Advanced": "Avanzado",
+    "Projects": "Proyectos",
+    "Parents": "Padres",
+    "noProjects": "¡No hay proyectos asociados con esta habilidad! :("
   }
 }
