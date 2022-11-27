@@ -29,7 +29,7 @@ const useStyle = createStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     height: '100%',
     width: 'calc(100% - 16px - 16px)',
   },
@@ -38,6 +38,9 @@ const useStyle = createStyles((theme) => ({
     order: 0,
     flexGrow: 0,
     flexShrink: 10,
+    [theme.fn.smallerThan('sm')]: {
+      display: 'none',
+    },
   },
 }));
 

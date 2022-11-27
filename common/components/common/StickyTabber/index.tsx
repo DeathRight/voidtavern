@@ -77,7 +77,7 @@ export const StickyTabber = (props: StickyTabberProps) => {
           classNames={{ tabLabel: classes.tabLabel, tabIcon: classes.tabIcon }}
           value={value}
           {...tabProps}
-          onTabChange={(id) => router.push(`/#${id}`)}
+          onTabChange={(id) => router.push(`#${id}`)}
         >
           <Tabs.List position="center" aria-label="Table of Contents">
             {tabList}

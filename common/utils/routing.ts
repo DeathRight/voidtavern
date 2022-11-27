@@ -1,6 +1,12 @@
 import Projects from './Projects';
 
-const trim = (path: string) => path.substring(1);
+const trim = (path: string) => {
+  let str = path.startsWith('/') ? path.substring(1) : path;
+  const hashI = str.indexOf('#');
+  if (hashI > -1) str = str.substring(0, hashI);
+
+  return str;
+};
 
 export const isHome = (path: string) => trim(path) === '';
 
@@ -20,5 +26,5 @@ export const getProjectFromPath = (path: string) => {
   return false;
 };
 
-export const getNavLinkIdFromPath = (path: string) =>
-  isHome(path) ? 'home' : getProjectFromPath(path) || '404';
+export const getPage = <P extends { pId: string }>(path: string, pageProps: P) =>
+  pageProps.pId ?? (isHome(path) ? 'home' : '404');

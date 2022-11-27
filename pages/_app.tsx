@@ -22,7 +22,7 @@ import { ltrCache } from '../common/utils/ltr-cache';
 import { rtlCache } from '../common/utils/rtl-cache';
 import { RouterTransition } from '../common/components/RouterTransition';
 import Projects from '../common/utils/Projects';
-import { isHome } from '../common/utils/routing';
+import { getPage, isHome } from '../common/utils/routing';
 
 function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -32,37 +32,47 @@ function App(props: AppProps) {
   const AnyComp = Component as any;
 
   const [rtl, setRtl] = useState(false);
-  // Burger state
-  const [opened, setOpened] = useState(false);
 
+  /* ------------------------------- ColorScheme ------------------------------ */
   const prefColorScheme = useColorScheme();
+
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
     defaultValue: prefColorScheme,
     getInitialValueInEffect: true,
   });
+
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+  /* --------------------------------- NavBar --------------------------------- */
+  // Burger state
+  const [opened, setOpened] = useState(false);
 
   const router = useRouter();
+
   const [active, setActive] = useState(pageProps.pId ?? (isHome(router.asPath) ? 'home' : '404'));
+
+  const navClicked = (id: string) => {
+    setActive(id);
+    setOpened(false);
+  };
   const navItems = useMemo(
     () =>
       Projects.map((p) => (
-        <Link href={`/project/${p.id}`} passHref>
+        <Link key={p.id} href={`/project/${p.id}`} passHref>
           <NavLink
             component="a"
-            key={p.name}
             active={p.id === active}
             label={p.name}
-            onClick={() => setActive(p.id)}
+            onClick={() => navClicked(p.id)}
           />
         </Link>
       )),
     [active]
   );
-  useEffect(() => setActive(pageProps.pId ?? (isHome(router.asPath) ? 'home' : '404')), [router]);
 
+  useEffect(() => setActive(getPage(router.asPath, pageProps)), [router]);
+  /* ------------------------------------ * ----------------------------------- */
   return (
     <>
       <Head>
@@ -100,13 +110,12 @@ function App(props: AppProps) {
                     sx={(th) => ({ [th.fn.largerThan('sm')]: { top: '0' } })}
                   >
                     <ScrollArea>
-                      <Link href="/" passHref>
+                      <Link key="home" href="/" passHref>
                         <NavLink
                           component="a"
-                          key="home"
                           active={active === 'home'}
                           label="Home"
-                          onClick={() => setActive('home')}
+                          onClick={() => navClicked('home')}
                         />
                       </Link>
                       {navItems}
