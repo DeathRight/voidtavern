@@ -22,7 +22,7 @@ const useStyle = createStyles((theme) => ({
     width: 'calc(100% + 16px + 16px)',
     marginLeft: '-16px',
     [theme.fn.smallerThan('sm')]: {
-      paddingLeft: 'calc(34px + 34px + 24px)',
+      paddingLeft: 'calc(34px + 10px)',
     },
   },
   container: {
@@ -34,12 +34,12 @@ const useStyle = createStyles((theme) => ({
     width: 'calc(100% - 16px - 16px)',
   },
   spacer: {
-    flexBasis: 'calc(34px + 34px + 24px)',
+    flexBasis: 'calc(34px + 10px)',
     order: 0,
     flexGrow: 0,
     flexShrink: 10,
-    [theme.fn.smallerThan('sm')]: {
-      display: 'none',
+    [theme.fn.largerThan('sm')]: {
+      flexBasis: 'calc(34px + 34px + 24px)',
     },
   },
 }));

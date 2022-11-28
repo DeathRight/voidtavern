@@ -1,28 +1,19 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import {
-  MantineProvider,
-  ColorScheme,
-  ColorSchemeProvider,
-  AppShell,
-  Navbar,
-  NavLink,
-  ScrollArea,
-} from '@mantine/core';
+import { MantineProvider, ColorScheme, ColorSchemeProvider, AppShell } from '@mantine/core';
 import { useColorScheme, useLocalStorage } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
 import { appWithTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-import AppHeader from '../common/components/AppHeader/AppHeader';
+import AppHeader from '../common/components/AppHeader';
 import theme from '../modules/MantineTheme/MantineThemeOverride';
 import '../common/styles/transitions.css';
 import { ltrCache } from '../common/utils/ltr-cache';
 import { rtlCache } from '../common/utils/rtl-cache';
 import { RouterTransition } from '../common/components/RouterTransition';
-import Projects from '../common/utils/Projects';
 import { getPage, isHome } from '../common/utils/routing';
+import AppNavbar from '../common/components/AppNavbar';
 
 function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -50,26 +41,14 @@ function App(props: AppProps) {
 
   const router = useRouter();
 
-  const [active, setActive] = useState(pageProps.pId ?? (isHome(router.asPath) ? 'home' : '404'));
+  const [active, setActive] = useState(
+    (pageProps.pId as string) ?? (isHome(router.asPath) ? 'home' : '404')
+  );
 
   const navClicked = (id: string) => {
     setActive(id);
     setOpened(false);
   };
-  const navItems = useMemo(
-    () =>
-      Projects.map((p) => (
-        <Link key={p.id} href={`/project/${p.id}`} passHref>
-          <NavLink
-            component="a"
-            active={p.id === active}
-            label={p.name}
-            onClick={() => navClicked(p.id)}
-          />
-        </Link>
-      )),
-    [active]
-  );
 
   useEffect(() => setActive(getPage(router.asPath, pageProps)), [router]);
   /* ------------------------------------ * ----------------------------------- */
@@ -102,25 +81,12 @@ function App(props: AppProps) {
                   />
                 }
                 navbar={
-                  <Navbar
-                    p="md"
-                    hiddenBreakpoint="sm"
+                  <AppNavbar
                     hidden={!opened}
-                    width={{ sm: 200, lg: 300 }}
-                    sx={(th) => ({ [th.fn.largerThan('sm')]: { top: '0' } })}
-                  >
-                    <ScrollArea>
-                      <Link key="home" href="/" passHref>
-                        <NavLink
-                          component="a"
-                          active={active === 'home'}
-                          label="Home"
-                          onClick={() => navClicked('home')}
-                        />
-                      </Link>
-                      {navItems}
-                    </ScrollArea>
-                  </Navbar>
+                    setHidden={(h) => setOpened(!h)}
+                    active={active}
+                    navClicked={navClicked}
+                  />
                 }
                 styles={() => ({ main: { margin: '0', paddingTop: '0px', width: '100%' } })}
               >

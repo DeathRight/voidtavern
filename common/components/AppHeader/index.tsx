@@ -9,16 +9,14 @@ import {
   Tooltip,
 } from '@mantine/core';
 import {
-  IconHome,
   IconMoon,
   IconSun,
   IconTextDirectionLtr,
   IconTextDirectionRtl,
 } from '@tabler/icons';
 import { useTranslation } from 'next-i18next';
-import Link from 'next/link';
 import { FC } from 'react';
-import useStyles from './AppHeader.styles';
+import useStyles from './styles';
 
 type props = {
   themeValue: ColorScheme;
@@ -48,12 +46,12 @@ const AppHeader: FC<props> = ({
           <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
             <Burger className={classes.btn} opened={opened} onClick={() => onOpen(!opened)} />
           </MediaQuery>
-          <Link href="/" passHref>
+          {/*<Link href="/" passHref>
             <ActionIcon className={classes.btn} component="a" key="homeBtn" aria-label="Home">
               {' '}
               <IconHome />{' '}
             </ActionIcon>
-          </Link>
+          </Link>*/}
         </Group>
         <Group spacing="xs" position="right" align="center">
           <Tooltip
