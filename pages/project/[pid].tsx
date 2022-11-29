@@ -1,6 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import PageHeading from '../../common/components/common/PageHeading';
+import PageHeading from '../../common/components/common/Page/PageHeading';
 import mapLocalesToPaths from '../../common/utils/locales';
 import Projects from '../../common/utils/Projects';
 import ProjectPage from '../../modules/ProjectPage';

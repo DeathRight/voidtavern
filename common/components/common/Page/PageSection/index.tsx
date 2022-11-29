@@ -1,6 +1,6 @@
 import { TFunction } from 'next-i18next';
-import Section, { SectionProps } from '../Section';
-import STG from '../STG';
+import Section, { SectionProps } from '../../Section';
+import STG from '../../STG';
 
 interface PageSectionProps extends Omit<SectionProps, 'title'> {
   /**

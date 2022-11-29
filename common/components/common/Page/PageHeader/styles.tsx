@@ -21,6 +21,7 @@ const useStyle = createStyles((theme) => ({
 
     width: 'calc(100% + 16px + 16px)',
     marginLeft: '-16px',
+    paddingRight: 'calc(34px + 10px)',
     [theme.fn.smallerThan('sm')]: {
       paddingLeft: 'calc(34px + 10px)',
     },
@@ -34,12 +35,10 @@ const useStyle = createStyles((theme) => ({
     width: 'calc(100% - 16px - 16px)',
   },
   spacer: {
-    flexBasis: 'calc(34px + 10px)',
-    order: 0,
     flexGrow: 0,
     flexShrink: 10,
     [theme.fn.largerThan('sm')]: {
-      flexBasis: 'calc(34px + 34px + 24px)',
+      flexBasis: 'calc(34px + 10px)',
     },
   },
 }));

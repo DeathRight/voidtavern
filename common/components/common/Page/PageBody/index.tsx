@@ -1,8 +1,8 @@
 import { BoxProps, Stack } from '@mantine/core';
 import React, { useState } from 'react';
 import PageHeader from '../PageHeader';
-import STG from '../STG';
-import { StickyTabber, StickyTabberProps } from '../StickyTabber';
+import STG from '../../STG';
+import { StickyTabber, StickyTabberProps } from '../../StickyTabber';
 import PageContent from '../PageContent';
 
 interface PageBodyProps

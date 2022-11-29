@@ -6,7 +6,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next/types';
 import React, { useId, useMemo } from 'react';
 import { useTranslation } from 'next-i18next';
-import PageBody from '../common/components/common/PageBody';
+import PageBody from '../common/components/common/Page/PageBody';
 import Row from '../common/components/common/Row';
 import Databases from '../common/utils/Skills/Databases';
 import Environments from '../common/utils/Skills/Environments';
@@ -17,8 +17,8 @@ import About from '../modules/Index/About';
 import SkillCard from '../common/components/Skill/SkillCard';
 import { SectionTabObj } from '../common/components/common/StickyTabber';
 import VoidTavernWelcome from '../modules/Index/VoidTavernWelcome';
-import PageHeading from '../common/components/common/PageHeading';
-import PageSection from '../common/components/common/PageSection';
+import PageHeading from '../common/components/common/Page/PageHeading';
+import PageSection from '../common/components/common/Page/PageSection';
 
 export default function HomePage() {
   const sections: SectionTabObj[] = [

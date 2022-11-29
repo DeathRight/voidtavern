@@ -6,14 +6,15 @@ import { useColorScheme, useLocalStorage } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
 import { appWithTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import AppHeader from '../common/components/AppHeader';
 import theme from '../modules/MantineTheme/MantineThemeOverride';
 import '../common/styles/transitions.css';
 import { ltrCache } from '../common/utils/ltr-cache';
 import { rtlCache } from '../common/utils/rtl-cache';
 import { RouterTransition } from '../common/components/RouterTransition';
 import { getPage, isHome } from '../common/utils/routing';
-import AppNavbar from '../common/components/AppNavbar';
+import AppNavbar, { AppNavbarDrawer } from '../common/components/App/AppNavbar';
+import AppContext from '../common/components/App/AppContext';
+import AppHeader from '../common/components/App/AppHeader';
 
 function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -59,6 +60,7 @@ function App(props: AppProps) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
+
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <div dir={rtl ? 'rtl' : 'ltr'}>
           <MantineProvider
@@ -69,29 +71,24 @@ function App(props: AppProps) {
           >
             <RouterTransition />
             <NotificationsProvider>
-              <AppShell
-                header={
-                  <AppHeader
-                    themeValue={colorScheme}
-                    onToggleTheme={(t) => toggleColorScheme(t)}
-                    rtlValue={rtl}
-                    onRtlToggle={(v) => setRtl(v)}
-                    opened={opened}
-                    onOpen={(v) => setOpened(v)}
-                  />
-                }
-                navbar={
-                  <AppNavbar
-                    hidden={!opened}
-                    setHidden={(h) => setOpened(!h)}
-                    active={active}
-                    navClicked={navClicked}
-                  />
-                }
-                styles={() => ({ main: { margin: '0', paddingTop: '0px', width: '100%' } })}
+              <AppContext.Provider
+                value={{
+                  themeValue: colorScheme,
+                  onToggleTheme: () => toggleColorScheme(),
+                  rtlValue: rtl,
+                  onToggleRtl: () => setRtl(!rtl),
+                  navbarOpened: opened,
+                  onNavBarToggle: () => setOpened(!opened),
+                }}
               >
-                <AnyComp {...pageProps} />
-              </AppShell>
+                <AppShell
+                  header={<AppHeader />}
+                  navbar={<AppNavbar active={active} navClicked={navClicked} />}
+                >
+                  <AppNavbarDrawer active={active} navClicked={navClicked} />
+                  <AnyComp {...pageProps} />
+                </AppShell>
+              </AppContext.Provider>
             </NotificationsProvider>
           </MantineProvider>
         </div>

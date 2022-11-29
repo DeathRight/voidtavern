@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import PageContent from '../common/components/common/PageContent';
+import PageContent from '../common/components/common/Page/PageContent';
 
 export default function Custom404() {
   return (

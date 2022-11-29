@@ -3,8 +3,8 @@ import { createStyles } from '@mantine/core';
 const useStyle = createStyles((theme) => ({
   textStack: {
     [theme.fn.smallerThan(700)]: {
-      marginLeft: '64px',
-      marginRight: '64px',
+      marginLeft: '34px',
+      marginRight: '34px',
     },
   },
   title: {
@@ -17,7 +17,7 @@ const useStyle = createStyles((theme) => ({
     flexDirection: 'row',
     marginBottom: '-0.5em',
 
-    [theme.fn.smallerThan(800)]: {
+    [theme.fn.smallerThan(400)]: {
       fontSize: theme.headings.sizes.h2.fontSize,
     },
   },
@@ -33,7 +33,7 @@ const useStyle = createStyles((theme) => ({
   },
   desc: {
     //color: theme.colorScheme === 'dark' ? theme.colors.gray['7'] : theme.colors.gray['5'],
-    [theme.fn.smallerThan(800)]: {
+    [theme.fn.smallerThan(400)]: {
       fontSize: theme.fontSizes.md,
     },
   },

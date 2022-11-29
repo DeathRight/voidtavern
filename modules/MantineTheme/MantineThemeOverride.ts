@@ -42,6 +42,7 @@ const componentProps: MantineThemeOverride = {
     ActionIcon: { defaultProps: ActionIconProps },
     Tooltip: { defaultProps: TooltipProps },
     Divider: { defaultProps: DividerProps },
+    AppShell: { styles: () => ({ main: { margin: '0', paddingTop: '0px', width: '100%' } }) },
   },
   fontFamily: 'Oxygen, sans-serif',
   fontFamilyMonospace: 'Nanum Gothic Coding, monospace',
