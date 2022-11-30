@@ -77,8 +77,9 @@ export const AppNavbarDrawer = (props: AppNavbarProps) => {
       padding="md"
       opened={navbarOpened && isDrawer}
       onClose={onNavBarToggle}
+      hidden={!isDrawer}
     >
-      {isDrawer && <Content active={active} navClicked={navClicked} />}
+      <Content active={active} navClicked={navClicked} />
     </Drawer>
   );
 };
@@ -87,18 +88,13 @@ const AppNavbar = (props: AppNavbarProps) => {
   const { active, navClicked } = props;
   const { classes } = useStyles();
 
-  const theme = useMantineTheme();
-  const isDrawer = useMediaQuery(theme.fn.smallerThan('sm').substring(7), false);
-
   return (
     <Navbar
-      //ref={mergedRef}
       className={classes.navbar}
       p="md"
       hiddenBreakpoint="sm"
-      hidden={isDrawer}
+      hidden
       width={{ sm: 200, lg: 300 }}
-      //style={styles}
     >
       <Content active={active} navClicked={navClicked} />
     </Navbar>

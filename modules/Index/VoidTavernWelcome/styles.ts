@@ -18,8 +18,8 @@ const useStyle = createStyles((theme) => ({
     [theme.fn.smallerThan(390)]: {
       fontSize: 60,
     },
-    [theme.fn.smallerThan(300)]: {
-      fontSize: 45,
+    [theme.fn.smallerThan(340)]: {
+      fontSize: 55,
     },
   },
   void: {
@@ -39,14 +39,14 @@ const useStyle = createStyles((theme) => ({
       letterSpacing: 11.5,
     },
     [theme.fn.smallerThan(390)]: {
-      marginTop: 10,
+      marginTop: 12,
       fontSize: 14,
-      letterSpacing: 8,
+      letterSpacing: 11,
     },
-    [theme.fn.smallerThan(300)]: {
-      marginTop: 8,
+    [theme.fn.smallerThan(340)]: {
+      marginTop: 10,
       fontSize: 12,
-      letterSpacing: 6,
+      letterSpacing: 10,
     },
   },
 }));
