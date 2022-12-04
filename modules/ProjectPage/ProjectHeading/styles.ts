@@ -22,7 +22,7 @@ const useStyle = createStyles((theme) => ({
     },
   },
   firstLetter: {
-    color: theme.primaryColor,
+    //color: theme.primaryColor,
     fontFamily: 'Cinzel Decorative, cursive',
     fontSize: '1.25em',
     position: 'relative',

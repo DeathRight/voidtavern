@@ -17,14 +17,18 @@ export default () => {
       }}
     >
       <Title className={classes.title} mb="-24px">
-        <Text className={classes.void}>V</Text>
+        <Text className={classes.void} color={theme.primaryColor}>
+          V
+        </Text>
         <Text className={classes.tavern}>oid</Text>
       </Title>
       <Title order={1} className={classes.welcome}>
         {t('welcome')}
       </Title>
       <Title className={classes.title} mt="-12px">
-        <Text className={classes.void}>T</Text>
+        <Text className={classes.void} color={theme.primaryColor}>
+          T
+        </Text>
         <Text className={classes.tavern}>avern</Text>
       </Title>
       <Text

@@ -14,7 +14,7 @@ const colors: MantineThemeOverride = {
     success: DEFAULT_THEME.colors.green,
     info: DEFAULT_THEME.colors.cyan,
   },
-  primaryColor: 'indigo',
+  primaryColor: 'violet',
 };
 
 /* ----------------------------- Component Props ---------------------------- */

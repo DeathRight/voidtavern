@@ -23,8 +23,9 @@ const useStyle = createStyles((theme) => ({
     },
   },
   void: {
-    color: theme.primaryColor,
+    //color: theme.colors.violet,
     fontFamily: 'Cinzel Decorative, cursive',
+    marginTop: '0.225rem',
   },
   tavern: {
     fontFamily: 'Megrim, cursive',

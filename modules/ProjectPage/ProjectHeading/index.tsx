@@ -1,4 +1,4 @@
-import { Box, Group, Space, Stack, Text, Title } from '@mantine/core';
+import { Box, Group, Space, Stack, Text, Title, useMantineTheme } from '@mantine/core';
 import { useTranslation } from 'next-i18next';
 import { useContext, useId, useMemo } from 'react';
 import { SiGithub } from 'react-icons/si';
@@ -11,6 +11,7 @@ const ProjectHeading = () => {
   const project = useContext(ProjectContext);
   const { classes } = useStyle();
   const { t } = useTranslation('projects');
+  const theme = useMantineTheme();
 
   const skillBadges = useMemo(
     () => project?.skills.map((s) => <SkillBadge key={`skillBadge:${s.id}`} skill={s} />),
@@ -28,7 +29,9 @@ const ProjectHeading = () => {
       <Stack align="center" px="xs" pb="xs">
         <Stack className={classes.textStack} align="center">
           <Title dir="ltr" order={1} className={classes.title}>
-            <Text className={classes.firstLetter}>{fL}</Text>
+            <Text className={classes.firstLetter} color={theme.primaryColor}>
+              {fL}
+            </Text>
             <Text className={classes.restL}>{rL}</Text>
           </Title>
           <Text size="lg" align="center" mt="-1em" color="dimmed" className={classes.desc}>
@@ -53,12 +56,12 @@ const ProjectHeading = () => {
         </Text>
         <Box
           id="skillBadges"
-          sx={(theme) => ({
+          style={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'flex-start',
             gap: theme.spacing.sm,
-          })}
+          }}
         >
           {skillBadges}
         </Box>

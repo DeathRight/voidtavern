@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider, AppShell } from '@mantine/core';
@@ -13,7 +13,7 @@ import { rtlCache } from '../common/utils/rtl-cache';
 import { RouterTransition } from '../common/components/RouterTransition';
 import { getPage, isHome } from '../common/utils/routing';
 import AppNavbar, { AppNavbarDrawer } from '../common/components/App/AppNavbar';
-import AppContext from '../common/components/App/AppContext';
+import { AppContextProvider } from '../common/components/App/AppContext';
 import AppHeader from '../common/components/App/AppHeader';
 
 function App(props: AppProps) {
@@ -53,6 +53,19 @@ function App(props: AppProps) {
 
   useEffect(() => setActive(getPage(router.asPath, pageProps)), [router]);
   /* ------------------------------------ * ----------------------------------- */
+  /* ------------------------ AppContextProvider Value ------------------------ */
+  const ACPValue = useMemo(
+    () => ({
+      themeValue: colorScheme,
+      onToggleTheme: () => toggleColorScheme(),
+      rtlValue: rtl,
+      onToggleRtl: () => setRtl(!rtl),
+      navbarOpened: opened,
+      onNavBarToggle: () => setOpened(!opened),
+    }),
+    [colorScheme, rtl, opened]
+  );
+  /* ------------------------------------ * ----------------------------------- */
   return (
     <>
       <Head>
@@ -71,16 +84,7 @@ function App(props: AppProps) {
           >
             <RouterTransition />
             <NotificationsProvider>
-              <AppContext.Provider
-                value={{
-                  themeValue: colorScheme,
-                  onToggleTheme: () => toggleColorScheme(),
-                  rtlValue: rtl,
-                  onToggleRtl: () => setRtl(!rtl),
-                  navbarOpened: opened,
-                  onNavBarToggle: () => setOpened(!opened),
-                }}
-              >
+              <AppContextProvider value={ACPValue}>
                 <AppShell
                   header={<AppHeader />}
                   navbar={<AppNavbar active={active} navClicked={navClicked} />}
@@ -88,7 +92,7 @@ function App(props: AppProps) {
                   <AppNavbarDrawer active={active} navClicked={navClicked} />
                   <AnyComp {...pageProps} />
                 </AppShell>
-              </AppContext.Provider>
+              </AppContextProvider>
             </NotificationsProvider>
           </MantineProvider>
         </div>
