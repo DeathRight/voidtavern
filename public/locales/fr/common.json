@@ -1,6 +1,7 @@
 {
   "header": {
     "tooltips": {
+      "home": "Page d'accueil",
       "dir": "Passer en Mode {{mode}}",
       "light": "Passer en Mode Sombre",
       "dark": "Passer en Mode Lumière"

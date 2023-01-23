@@ -33,19 +33,33 @@ const useStyles = createStyles((theme) => ({
   navdrawer: {
     padding: 0,
   },
+
   navLink: {
-    //borderRadius: theme.radius.md,
+    display: 'flex',
+    textDecoration: 'none',
   },
+  navSectionActive: {
+    width: '4px',
+    alignSelf: 'stretch',
+    backgroundColor: theme.colors[theme.primaryColor],
+  },
+
   navBase: {
     width: 'calc(100% + 1px)',
     height: '100%',
 
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-    borderStyle: 'solid',
-    borderWidth: '1px',
+
+    borderStyle: 'hidden',
+    borderWidth: '0px',
+
+    borderRightStyle: 'solid',
+    borderRightWidth: '1px',
     borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[1],
     borderTopRightRadius: '14px',
     boxShadow: '0px 0px 14px -10px black',
+
+    textDecoration: 'none',
   },
   navContainer: {
     paddingTop: theme.spacing.sm,

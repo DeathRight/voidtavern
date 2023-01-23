@@ -1,6 +1,7 @@
 {
   "header": {
     "tooltips": {
+      "home": "Página de inicio",
       "dir": "Cambiar al Modo {{mode}}",
       "light": "Cambiar al Modo Oscuro",
       "dark": "Cambiar al Modo de Luz"

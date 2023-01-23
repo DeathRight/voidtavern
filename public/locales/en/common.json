@@ -1,6 +1,7 @@
 {
   "header": {
     "tooltips": {
+      "home": "Home",
       "dir": "Switch to {{mode}} Mode",
       "light": "Switch to Dark Mode",
       "dark": "Switch to Light Mode"

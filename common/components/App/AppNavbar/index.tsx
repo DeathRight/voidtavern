@@ -1,5 +1,16 @@
-import { Navbar, ScrollArea, NavLink, Drawer, Group, Box, CloseButton, Text } from '@mantine/core';
+import {
+  Navbar,
+  ScrollArea,
+  NavLink,
+  Drawer,
+  Group,
+  Box,
+  CloseButton,
+  Text,
+  Divider,
+} from '@mantine/core';
 import { IconHome } from '@tabler/icons';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import Projects from '../../../utils/Projects';
@@ -16,18 +27,24 @@ const Content = (props: AppNavbarProps) => {
   const { active, navClicked } = props;
   const { classes } = useStyles();
   const { onNavBarToggle, isDrawer } = useAppContext();
+  const { t } = useTranslation('common');
 
   const navItems = useMemo(
     () =>
       Projects.map((p) => (
-        <Link key={p.id} href={`/project/${p.id}`} passHref>
-          <NavLink
-            component="a"
-            className={classes.navLink}
-            active={p.id === active}
-            label={p.name}
-            onClick={() => navClicked(p.id)}
-          />
+        <Link className={classes.navLink} key={p.id} href={`/project/${p.id}`} passHref>
+          <Box className={classes.navLink} component="a">
+            <Box
+              className={classes.navSectionActive}
+              sx={{ visibility: active === p.id ? 'unset' : 'hidden' }}
+            />
+            <NavLink
+              component="a"
+              active={p.id === active}
+              label={p.name}
+              onClick={() => navClicked(p.id)}
+            />
+          </Box>
         </Link>
       )),
     [active]
@@ -46,16 +63,30 @@ const Content = (props: AppNavbarProps) => {
         </Box>
         <ScrollArea>
           <Box className={classes.navContainer}>
-            <Navbar.Section pb="lg">
+            <Navbar.Section>
               <Link key="home" href="/" passHref>
-                <NavLink
-                  key="homeBtn"
-                  label={<Text size="lg">Home</Text>}
-                  active={active === 'home'}
-                  onClick={() => navClicked('home')}
-                  icon={<IconHome />}
-                />
+                <Box className={classes.navLink} component="a">
+                  <Box
+                    className={classes.navSectionActive}
+                    sx={{ visibility: active === 'home' ? 'unset' : 'hidden' }}
+                  />
+                  <NavLink
+                    key="homeBtn"
+                    label={<Text size="lg">{t('header.tooltips.home')}</Text>}
+                    active={active === 'home'}
+                    onClick={() => navClicked('home')}
+                    icon={<IconHome />}
+                  />
+                </Box>
               </Link>
+            </Navbar.Section>
+            <Navbar.Section>
+              <Divider />
+            </Navbar.Section>
+            <Navbar.Section pl="lg" pt="xl" pb="xs">
+              <Text size="md" color="dimmed" sx={{ userSelect: 'none' }}>
+                {t('skills.Projects')}
+              </Text>
             </Navbar.Section>
             <Navbar.Section>{navItems}</Navbar.Section>
           </Box>
