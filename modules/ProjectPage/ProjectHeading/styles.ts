@@ -16,6 +16,7 @@ const useStyle = createStyles((theme) => ({
     display: 'inline-flex',
     flexDirection: 'row',
     marginBottom: '-0.5em',
+    userSelect: 'none',
 
     [theme.fn.smallerThan(400)]: {
       fontSize: theme.headings.sizes.h2.fontSize,
@@ -27,6 +28,7 @@ const useStyle = createStyles((theme) => ({
     fontSize: '1.25em',
     position: 'relative',
     bottom: '0.225em',
+    userSelect: 'none',
   },
   restL: {
     fontFamily: 'inherit',
