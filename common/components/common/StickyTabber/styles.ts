@@ -18,6 +18,9 @@ const useStyle = createStyles((theme) => ({
     overflow: 'auto',
     justifySelf: 'center',
   },
+  tabs: {
+    overflowY: 'visible',
+  },
   tabLabel: {
     [theme.fn.smallerThan('xs')]: {
       display: 'none',

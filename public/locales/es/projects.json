@@ -1,7 +1,21 @@
 {
   "github": "Ver en Github",
   "sections": {
-    "about": "Sobre",
-    "snip": "Extractos"
+    "about": "Acerca de",
+    "features": "Funcionalidades",
+    "snip": "Fragmentos de código"
+  },
+  "stg": {
+    "brief": "Componente React que detecta si una 'Sección' se superpone con una 'Ventana'",
+    "desc": "Este componente sigue la sección que se superpone con la ventana a medida que el usuario se desplaza por las secciones secundarias. Admite desplazamiento horizontal y vertical y ofrece opciones personalizables para las dimensiones de la ventana y el desplazamiento.",
+    "snips": {
+      "useScrollTracking": "Aquí usamos el gancho 'useScrollPosition' para rastrear la posición de desplazamiento de la ventana a través de 'currPos'. Dependiendo de la propiedad 'orientation' del componente, establecemos los valores 'axis' y 'axisEnd' en consecuencia para manejar tanto el desplazamiento vertical como horizontal.\n\nLuego, recorremos las secciones y ejecutamos 'doesOverlap' para verificar si la sección se superpone con la ventana. Si lo hace, lo comparamos con la 'topMost' actual, y si es más alto, se convierte en el 'topMost'.\n\nFinalmente, llamamos a 'setScrolledTo' con el ID de la sección y la referencia del elemento."
+    },
+    "highlights": {
+      "section": "sección",
+      "sections": "secciones",
+      "window": "ventana"
+    },
+    "info": "¡Este componente se utiliza en este mismo portafolio para resaltar la sección actual en la barra superior!"
   }
 }

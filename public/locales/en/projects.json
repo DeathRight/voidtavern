@@ -2,6 +2,20 @@
   "github": "View on Github",
   "sections": {
     "about": "About",
+    "features": "Features",
     "snip": "Snippets"
+  },
+  "stg": {
+    "brief": "React component that detects if a 'Section' overlaps with a 'Window'",
+    "desc": "This component tracks the overlapping section within the window as the user scrolls through the children sections. It supports both horizontal and vertical scrolling and provides customizable options for window dimensions and offset.",
+    "snips": {
+      "useScrollTracking": "Here we use the 'useScrollPosition' hook to track the window's scroll position via 'currPos'. Depending on the component's 'orientation' property, we set the 'axis' and 'axisEnd' values accordinglty to handle both vertical and horizontal scrolling.\n\nThen we iterate through the sections and run 'doesOverlap' to check if the section overlaps with the window. If it does, it checks against the current 'topMost', and if it's higher, it becomes the 'topMost'.\n\nFinally, we call 'setScrolledTo' with the section's ID and element ref."
+    },
+    "highlights": {
+      "section": "section",
+      "sections": "sections",
+      "window": "window"
+    },
+    "info": "This component is used in this very portfolio to highlight the current section in the top bar!"
   }
 }

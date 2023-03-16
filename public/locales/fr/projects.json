@@ -1,7 +1,21 @@
 {
   "github": "Voir sur Github",
   "sections": {
-    "about": "Au sujet de",
-    "snip": "Extraits"
+    "about": "À propos",
+    "features": "Fonctionnalités",
+    "snip": "Extraits de code"
+  },
+  "stg": {
+    "brief": "Composant React qui détecte si une 'Section' chevauche une 'Fenêtre'",
+    "desc": "Ce composant suit la section qui chevauche la fenêtre lorsque l'utilisateur fait défiler les sections enfants. Il prend en charge le défilement horizontal et vertical et propose des options personnalisables pour les dimensions et le décalage de la fenêtre.",
+    "snips": {
+      "useScrollTracking": "Ici, nous utilisons le crochet 'useScrollPosition' pour suivre la position de défilement de la fenêtre via 'currPos'. Selon la propriété 'orientation' du composant, nous définissons les valeurs 'axis' et 'axisEnd' en conséquence pour gérer à la fois le défilement vertical et horizontal.\n\nEnsuite, nous parcourons les sections et exécutons 'doesOverlap' pour vérifier si la section chevauche la fenêtre. Si c'est le cas, nous la comparons à la 'topMost' actuelle, et si elle est plus haute, elle devient la 'topMost'.\n\nEnfin, nous appelons 'setScrolledTo' avec l'ID de la section et la référence de l'élément."
+    },
+    "highlights": {
+      "section": "section",
+      "sections": "sections",
+      "window": "fenêtre"
+    },
+    "info": "Ceci est utilisé dans ce même portfolio pour mettre en évidence la section actuelle dans la barre supérieure !"
   }
 }

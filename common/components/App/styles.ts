@@ -19,6 +19,7 @@ const useStyles = createStyles((theme) => ({
     pointerEvents: 'auto',
   },
   /* ------------------------------------ * ----------------------------------- */
+  /* ----------------------------------- Nav ---------------------------------- */
   navbar: {
     top: 0,
     padding: 0,
@@ -54,18 +55,21 @@ const useStyles = createStyles((theme) => ({
     borderWidth: '0px',
 
     borderRightStyle: 'solid',
-    borderRightWidth: '1px',
-    borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[1],
-    borderTopRightRadius: '14px',
-    boxShadow: '0px 0px 14px -10px black',
+    borderRightWidth: theme.radius.xs,
+    borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+    //borderTopRightRadius: theme.spacing.md,
+    //boxShadow: '0px 0px 14px -10px black',
 
     textDecoration: 'none',
   },
   navContainer: {
     paddingTop: theme.spacing.sm,
     paddingBottom: theme.spacing.sm,
+    paddingLeft: theme.spacing.xs,
+    paddingRight: theme.spacing.xs,
     width: '100%',
   },
+  /* ------------------------------------ * ----------------------------------- */
 }));
 
 export default useStyles;

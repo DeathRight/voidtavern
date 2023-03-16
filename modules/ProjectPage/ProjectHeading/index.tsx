@@ -19,6 +19,9 @@ const ProjectHeading = () => {
   );
 
   const pName = project?.name ?? 'Project';
+  const pDesc: string = project?.id
+    ? t(`${project.id}.brief` as any)
+    : project?.description ?? 'Oops, no description!';
   //First letter has separate styling
   const fL = pName.substring(0, 1);
   //Rest of the title
@@ -35,7 +38,7 @@ const ProjectHeading = () => {
             <Text className={classes.restL}>{rL}</Text>
           </Title>
           <Text size="lg" align="center" mt="-1em" color="dimmed" className={classes.desc}>
-            {project?.description}
+            {pDesc}
           </Text>
         </Stack>
         <Space />

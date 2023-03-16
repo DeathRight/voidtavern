@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import { Text, Grid, Card, Highlight } from '@mantine/core';
+import { Text, Card, Highlight, Box } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { IconCode, IconInfoCircle } from '@tabler/icons';
 import { useTranslation } from 'next-i18next';
@@ -21,18 +21,20 @@ export default () => {
   return (
     <PageBody id={uId} tabs={tabs as any} t={t}>
       <PageSection globalId={uId} t={t} id="about">
-        <Card withBorder>
-          <Grid align="center">
-            <Grid.Col span={1}>
+        <Card withBorder p="sm">
+          <Box
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}
+          >
+            <Box pr="md">
               <IconInfoCircle />
-            </Grid.Col>
-            <Grid.Col span={11}>
-              <Text>
-                This component is used in this very portfolio to highlight the current section in
-                the top bar!
-              </Text>
-            </Grid.Col>
-          </Grid>
+            </Box>
+            <Text>{t('stg.info')}</Text>
+          </Box>
         </Card>
         <Card pb="0" withBorder>
           <Card.Section>
@@ -43,15 +45,18 @@ export default () => {
         </Card>
 
         <Highlight
-          highlight={['sections', 'section', 'window']}
+          highlight={[
+            t('stg.highlights.sections'),
+            t('stg.highlights.section'),
+            t('stg.highlights.window'),
+          ]}
           highlightStyles={(theme) => ({
             color: theme.colorScheme === 'dark' ? theme.colors.info[3] : theme.colors.info[6],
             backgroundColor: 'transparent',
             fontWeight: 'bolder',
           })}
         >
-          The component is provided sections and window dimensions, and as the user scrolls through
-          them the component keeps track of which section overlaps with the window.
+          {t('stg.desc')}
         </Highlight>
       </PageSection>
       <PageSection globalId={uId} t={t} id="snip">
@@ -109,6 +114,7 @@ export default () => {
             </Prism>
           </Card.Section>
         </Card>
+        <Text style={{ whiteSpace: 'pre-wrap' }}>{t('stg.snips.useScrollTracking')}</Text>
       </PageSection>
     </PageBody>
   );
