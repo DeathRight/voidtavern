@@ -17,5 +17,9 @@
       "window": "fenêtre"
     },
     "info": "Ceci est utilisé dans ce même portfolio pour mettre en évidence la section actuelle dans la barre supérieure !"
+  },
+  "dcr": {
+    "brief": "Un générateur de personnages DnD hautement personnalisable",
+    "desc": "Un générateur de personnages DnD hautement personnalisable utilisant React18, Stitches et Radix-UI primitives, capable de créer jusqu'à 100 personnages en moins d'une seconde. Les fonctionnalités comprennent la génération de noms avec une graine aléatoire, les origines, les statistiques ajustables basées sur la comparaison des parents, les paramètres de sexe et d'âge, et l'exportation CSV avec un ordre d'en-tête personnalisable."
   }
 }

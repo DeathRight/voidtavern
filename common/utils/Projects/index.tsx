@@ -1,4 +1,5 @@
+import DCRProject from './DnDCharRoll';
 import STGProject from './ScrollTrackingGroup';
 
-const Projects = [STGProject];
+const Projects = [STGProject, DCRProject];
 export default Projects;

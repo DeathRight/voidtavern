@@ -70,7 +70,12 @@ export const StickyTabber = (props: StickyTabberProps) => {
   }, [value]);
   /* ------------------------------------ * ----------------------------------- */
   return (
-    <ScrollArea styles={{ root: { pointerEvents: 'auto' } }}>
+    <ScrollArea
+      styles={{
+        root: { pointerEvents: 'auto', overflowY: 'visible' },
+        viewport: { overflowY: 'visible' },
+      }}
+    >
       <Box className={classes.main} {...boxProps}>
         <Tabs
           className={classes.btn}
