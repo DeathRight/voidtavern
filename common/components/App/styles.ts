@@ -7,6 +7,28 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: 'transparent',
     pointerEvents: 'none',
   },
+  footer: {
+    borderTopColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+    borderTopStyle: 'solid',
+    borderTopWidth: theme.radius.xs,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    marginLeft: 'calc(var(--mantine-navbar-width) + 1px)',
+    marginTop: 'var(--mantine-header-height)',
+    padding: theme.spacing.xl,
+    position: 'relative',
+  },
+  footerBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  createdBy: {
+    fontSize: theme.fontSizes.sm,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7],
+  },
   box: {
     width: '100%',
     height: '100%',
@@ -25,6 +47,7 @@ const useStyles = createStyles((theme) => ({
     padding: 0,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
     border: 'none',
+    height: '100vh',
   },
   navCloseBtn: {
     [theme.fn.largerThan('sm')]: {

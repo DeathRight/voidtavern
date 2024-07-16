@@ -7,6 +7,10 @@
       "dark": "Cambiar al Modo de Luz"
     }
   },
+  "footer": {
+    "createdBy": "Creado por",
+    "language": "Idioma"
+  },
   "skills": {
     "expLvl": "Nivel de Experiencia",
     "expYrs": "Años de Experiencia",

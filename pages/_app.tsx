@@ -15,6 +15,7 @@ import { getPage, isHome } from '../common/utils/routing';
 import AppNavbar, { AppNavbarDrawer } from '../common/components/App/AppNavbar';
 import { AppContextProvider } from '../common/components/App/AppContext';
 import AppHeader from '../common/components/App/AppHeader';
+import AppFooter from '../common/components/App/AppFooter';
 
 function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -88,6 +89,7 @@ function App(props: AppProps) {
                 <AppShell
                   header={<AppHeader />}
                   navbar={<AppNavbar active={active} navClicked={navClicked} />}
+                  footer={<AppFooter />}
                 >
                   <AppNavbarDrawer active={active} navClicked={navClicked} />
                   <AnyComp {...pageProps} />

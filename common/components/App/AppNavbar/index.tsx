@@ -122,13 +122,7 @@ const AppNavbar = (props: AppNavbarProps) => {
   const { classes } = useStyles();
 
   return (
-    <Navbar
-      className={classes.navbar}
-      hiddenBreakpoint="sm"
-      hidden
-      width={{ sm: 200, lg: 300 }}
-      height="calc(100vh - var(--mantine-footer-height, 0px))"
-    >
+    <Navbar className={classes.navbar} hiddenBreakpoint="sm" hidden width={{ sm: 200, lg: 300 }}>
       <Content active={active} navClicked={navClicked} />
     </Navbar>
   );
