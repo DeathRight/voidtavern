@@ -20,6 +20,11 @@
   },
   "dcr": {
     "brief": "A highly customizable DnD character generator",
-    "desc": "A highly customizable DnD character generator using React18, Stitches, and Radix-UI primitives, capable of creating up to 100 characters in under 1 second. Features include name generation with randomized seed, backgrounds, adjustable stats based on parent comparison, sex and age settings, and CSV export with customizable header order."
+    "desc": "A highly customizable DnD character generator using React18, Stitches, and Radix-UI primitives, capable of creating up to 100 characters in under 1 second. Features include name generation with randomized seed, backgrounds, adjustable stats based on parent comparison, sex and age settings, and CSV export with customizable header order.",
+    "snips": {
+      "CharacterContextProvider": "This snippet showcases the CharacterContextProvider, which is the core of the character generation logic. It demonstrates advanced React patterns including comprehensive use of hooks (useState, useMemo, useReducer, custom hooks), Context API for state management, memoization for performance optimization, and derived state calculations. The provider manages all aspects of a character, from basic attributes like sex and age to more complex elements like stats and name generation.",
+      "CharacterGenPage": "The CharacterGenPage component illustrates sophisticated React techniques for managing multiple character generations. It uses useCallback for memoizing the complex createGenForms function, which dynamically generates CharacterAccordionItem components based on the current settings. The useEffect hook ensures efficient updates when the number of characters or other key settings change. This component showcases how to handle dynamic component generation and state management in a performant way.",
+      "CharacterGenSettings": "CharacterGenSettings demonstrates complex state management in a settings interface. It uses multiple useState hooks to manage various settings, useEffect for syncing local and global state, and useMemo for optimizing the rendering of complex UI elements like dialogs. The component also showcases the integration of custom UI components and dialogs, providing a rich and interactive settings experience for the user."
+    }
   }
 }

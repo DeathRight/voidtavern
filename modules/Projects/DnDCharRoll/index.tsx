@@ -38,58 +38,178 @@ export default () => {
         <Card withBorder>
           <Card.Section>
             <Prism withLineNumbers language="tsx">
-              {`/* ----------------------------- Scroll Tracking ---------------------------- */
-    useScrollPosition(
-      ({ currPos }) => {
-        if (sections.current && wind.current) {
-          const axis = orientation === "vertical" ? "y" : "x";
-          const axisEnd = orientation === "vertical" ? "bottom" : "right";
-          const s = sections.current;
-          let topMost: (SectionObj & { id: string }) | undefined;
+              {`export const CharacterContextProvider = (props: CharacterContextProviderProps) => {
+    const { minAge = 1, maxAge = 60, statRoll = "4d6b3", statRange, value, children } = props;
 
-          const wRect = currPos;
-          const offset = {
-            top: orientation === "vertical" ? wRect.top : wRect.left,
-            btm: orientation === "vertical" ? wRect.bottom : wRect.right,
-          };
-          Object.entries(s).forEach(([id, section]) => {
-            if (section) {
-              const pos = section.position;
+    const [sex, setSex] = useState(value?.sex ?? (Math.round(Math.random()) as Sex));
+    const [age, setAge] = useState(value?.age ?? randomInt(minAge, maxAge));
+    const [background, setBackground] = useState(
+        value?.background ?? backgrounds[randomInt(0, backgrounds.length - 1)]
+    );
 
-              if (
-                doesOverlap(
-                  { start: offset.top, end: offset.btm },
-                  { start: pos[axis], end: pos[axisEnd] }
-                )
-              ) {
-                // If this section's position is further up the page than current topMost section
-                // or if topMost hasn't been set, set this section as topMost.
-                if (
-                  (topMost &&
-                    (!flipped
-                      ? pos[axis] < topMost.position[axis]
-                      : pos[axis] > topMost.position[axis])) ||
-                  !topMost
-                ) {
-                  topMost = { id, ...section };
-                }
-              }
-            }
-          });
+    const rollStats = useMemo(() => (input: string) => {
+        // ... (rollStats implementation)
+    }, [statRange]);
 
-          if (topMost) setScrolledTo([topMost.id, topMost.element]);
+    const rerollStats = useMemo(() => () => setStats(rollStats(statRoll)), [statRoll, rollStats]);
+    const [stats, setStats] = useState<ReturnType<typeof rollStats> | number[]>(
+        () => value?.stats ?? rollStats(statRoll)
+    );
+
+    const [name, dispatchName] = useReducer(NameReducer.reducer, {
+        firstName: value?.firstName ?? properNoun(gName.first()),
+        lastName: value?.lastName ?? properNoun(gName.last()),
+        gen: gName,
+    });
+
+    const char = useMemo(() => ({
+        // ... (character object construction)
+    }), [sex, age, name, stats, background]);
+
+    const state: State = useMemo(() => ({
+        sex, setSex, age, setAge, background, setBackground,
+        stats, rerollStats, name, dispatchName, char,
+    }), [age, background, char, name, rerollStats, sex, stats]);
+
+    useUpdateEffect(() => {
+        if (value && value !== char) {
+            // ... (update logic)
         }
-      },
-      [wind, flipped, orientation, lastUpdated],
-      wind,
-      undefined,
-      undefined,
-      localScroll ? container : undefined
-    );`}
+    }, [value]);
+
+    return <CharacterProvider value={state}>{children}</CharacterProvider>;
+};`}
             </Prism>
           </Card.Section>
         </Card>
-        <Text style={{ whiteSpace: 'pre-wrap' }}>{t('stg.snips.useScrollTracking')}</Text>
+        <Text style={{ whiteSpace: 'pre-wrap' }}>{t('dcr.snips.CharacterContextProvider')}</Text>
+
+        <Card withBorder>
+          <Card.Section>
+            <Prism withLineNumbers language="tsx">
+              {`const CharacterGenPage = () => {
+    const { amount, minAge, maxAge, statRoll, advStatSettings, statsRange, characters, setCharacters, id } = useGenSettings();
+
+    const createGenForms = useCallback((charList: typeof characters) => {
+        let forms: JSX.Element[] = [];
+        for (let ind = 0; ind < amount; ind++) {
+            forms.push(
+                <CharacterAccordionItem
+                    minAge={minAge}
+                    maxAge={maxAge}
+                    statRoll={statRoll}
+                    statRange={statsRange}
+                    id={\`char\${ind}\`}
+                    key={\`-\${id}-charAccord\${ind}\`}
+                    index={ind}
+                    value={charList[ind]}
+                    onChange={(i, char) => {
+                        const cA = characters;
+                        if (cA[i]) {
+                            cA.splice(i, 1, char);
+                        } else {
+                            cA.push(char);
+                        }
+                        setCharacters(cA);
+                    }}
+                />
+            );
+        }
+        return forms;
+    }, [amount, characters, maxAge, minAge, setCharacters, statRoll, statsRange, advStatSettings, id]);
+
+    const [genForms, setGenForms] = useState(createGenForms(characters));
+
+    useEffect(() => {
+        const cA = characters;
+        if (cA.length > amount - 1) {
+            cA.splice(amount - 1);
+            setCharacters(cA);
+        }
+        setGenForms(createGenForms(cA));
+    }, [amount, characters, createGenForms, setCharacters, statRoll, statsRange, id]);
+
+    return (
+        <>
+            <CharacterGenSettings />
+            <Card css={{ backgroundColor: "transparent", padding: "0" }}>
+                <Accordion type="multiple">{genForms}</Accordion>
+            </Card>
+        </>
+    );
+};`}
+            </Prism>
+          </Card.Section>
+        </Card>
+        <Text style={{ whiteSpace: 'pre-wrap' }}>{t('dcr.snips.CharacterGenPage')}</Text>
+
+        <Card withBorder>
+          <Card.Section>
+            <Prism withLineNumbers language="tsx">
+              {`const CharacterGenSettings = () => {
+    const ctx = useGenSettings();
+    const theme = useTheme();
+
+    const [amount, setAmount] = useState(ctx.amount);
+    const [minAge, setMinAge] = useState(ctx.minAge);
+    const [maxAge, setMaxAge] = useState(ctx.maxAge);
+    const [statRoll, setStatRoll] = useState(ctx.statRoll);
+    const [advStatSettings, setAdvStatSettings] = useState(ctx.advStatSettings);
+    const [parentAStats, setParentAStats] = useState(ctx.parentAStats);
+    const [parentBStats, setParentBStats] = useState(ctx.parentBStats);
+
+    const [characters, setCharacters] = useState(ctx.characters);
+    useEffect(() => {
+        if (ctx.characters !== characters)
+            setCharacters(Array.from(ctx.characters));
+    }, [ctx.characters, characters]);
+
+    const Dialogs = useMemo(
+        () => (
+            <>
+                <Dialog title="Edit 1st Parent" description={dlgDesc} key={"pEdA"}>
+                    <DialogTrigger asChild>
+                        <IconButton
+                            disabled={!advStatSettings}
+                            leftIcon={PersonIcon}
+                            text={"Edit 1st Parent"}
+                            key={"pEdA-btn"}
+                        />
+                    </DialogTrigger>
+                    <ParentStatsForm
+                        stats={parentAStats}
+                        onChange={(v) => setParentAStats(v)}
+                        key={"pSFA"}
+                    />
+                    <DialogClose asChild>
+                        <SaveChangesBtn
+                            leftIcon={CheckCircledIcon}
+                            text={"Save Changes"}
+                            key={"pEdA-save"}
+                        />
+                    </DialogClose>
+                </Dialog>
+                {/* Similar dialog for 2nd Parent */}
+            </>
+        ),
+        [advStatSettings, parentAStats, parentBStats]
+    );
+
+    return (
+        <>
+            <Card>
+                {/* Settings UI */}
+            </Card>
+            <Card style={{ maxWidth: "90%" }}>
+                {/* CSV export UI */}
+            </Card>
+        </>
+    );
+};`}
+            </Prism>
+          </Card.Section>
+        </Card>
+        <Text style={{ whiteSpace: 'pre-wrap' }}>{t('dcr.snips.CharacterGenSettings')}</Text>
       </PageSection>
     </PageBody>
   );
