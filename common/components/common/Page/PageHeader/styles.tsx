@@ -8,7 +8,7 @@ const useStyle = createStyles((theme) => ({
     zIndex: 50,
     pointerEvents: 'none',
     alignSelf: 'flex-start',
-    borderBottomWidth: 1,
+    borderBottomWidth: theme.radius.xs,
     borderBottomStyle: 'solid',
     borderBottomColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
     display: 'flex',
@@ -21,6 +21,9 @@ const useStyle = createStyles((theme) => ({
     [theme.fn.smallerThan('sm')]: {
       paddingLeft: 'calc(34px + 10px)',
     },
+  },
+  sticky: {
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
   },
   container: {
     display: 'flex',

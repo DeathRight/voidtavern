@@ -11,7 +11,7 @@ const useStyles = createStyles((theme) => ({
     borderTopColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
     borderTopStyle: 'solid',
     borderTopWidth: theme.radius.xs,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
     marginLeft: 'calc(var(--mantine-navbar-width) + 1px)',
     marginTop: 'var(--mantine-header-height)',
     padding: theme.spacing.xl,
@@ -27,7 +27,10 @@ const useStyles = createStyles((theme) => ({
   },
   createdBy: {
     fontSize: theme.fontSizes.sm,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7],
+    color: theme.colorScheme === 'dark' ? theme.colors.gray[6] : theme.black,
+  },
+  accentText: {
+    color: theme.colors[theme.primaryColor],
   },
   box: {
     width: '100%',

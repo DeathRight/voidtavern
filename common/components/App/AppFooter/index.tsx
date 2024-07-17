@@ -1,4 +1,4 @@
-import { Box, Footer, Select, Stack } from '@mantine/core';
+import { Box, Footer, Select, Stack, useMantineTheme, Text } from '@mantine/core';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import useStyles from '../styles';
@@ -6,6 +6,7 @@ import useStyles from '../styles';
 const AppFooter = () => {
   const { classes } = useStyles();
   const { t, i18n } = useTranslation('common');
+  const theme = useMantineTheme();
   const router = useRouter();
 
   const languageOptions = [
@@ -36,7 +37,14 @@ const AppFooter = () => {
               onChange={handleLanguageChange}
             />
           </Box>
-          <Box className={classes.createdBy}>{t('footer.createdBy')} Travis Baldwin</Box>
+          <Box>
+            <Text color="dimmed" size="sm" sx={{ display: 'inline-flex' }}>
+              {t('footer.createdBy')}&nbsp;
+              <Text weight="bold" color={theme.primaryColor}>
+                Travis Baldwin
+              </Text>
+            </Text>
+          </Box>
         </Stack>
       </Box>
     </Footer>
